@@ -7,7 +7,7 @@ class PersonScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        child: const Text("Person Screen here",style: TextStyle(
+        child: const Text("Settings Screen here",style: TextStyle(
         color: Colors.white
       ),),
       ),

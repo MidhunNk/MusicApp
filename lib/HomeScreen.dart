@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:music_app/homescreen/Mainscreen.dart';
-import 'package:music_app/homescreen/PersonScreen.dart';
+import 'package:music_app/homescreen/settingScreen.dart';
 import 'package:music_app/homescreen/Playlistscreen.dart';
 import 'package:music_app/homescreen/SearchScreen.dart';
 
@@ -20,9 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 19, 19, 19),
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 28, 26, 26),
-      ),
+      
       body: _page [_currentindex],
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.blue,
@@ -36,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         items: const [
           BottomNavigationBarItem(
-              backgroundColor: Colors.black,
+              backgroundColor: Colors.transparent,
               icon: Icon(
                 Icons.home,
               ),
@@ -51,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
               label: "Search"),
           BottomNavigationBarItem(
               backgroundColor: Colors.black,
-              icon: Icon(Icons.person),
+              icon: Icon(Icons.settings),
               label: "Person")
         ],
       ),
