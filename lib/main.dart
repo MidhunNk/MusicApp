@@ -17,7 +17,7 @@ class MusicApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.black,
-        
+       
       ),
       home: HomeScreen(
     

@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/homescreen/Mainscreen.dart';
+import 'package:music_app/homescreen/PersonScreen.dart';
+import 'package:music_app/homescreen/Playlistscreen.dart';
+import 'package:music_app/homescreen/SearchScreen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int activeTab = 0;
-
+  int _currentindex = 0;
+  final _page =[
+    MainScreen(),PlaylistScreen(),SearchScreen(),PersonScreen(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,41 +23,38 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 28, 26, 26),
       ),
-      bottomNavigationBar: getFooter(),
-    );
-  }
+      body: _page [_currentindex],
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.blue,
 
-  Widget getFooter() {
-    List items = [
-      Icons.home,
-      Icons.playlist_add,
-      Icons.search,
-      Icons.settings,
-    ];
-    return Container(
-      height: 80,
-      decoration: BoxDecoration(color: Colors.black),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: List.generate(4, (index) {
-            return IconButton(
-              onPressed: () {
-                setState(() {
-                  activeTab = index;
-                });
-              },
+        //backgroundColor: Colors.black,
+        currentIndex: _currentindex,
+        onTap: (index) {
+          setState(() {
+            _currentindex = index;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+              backgroundColor: Colors.black,
               icon: Icon(
-                items[index],
-                color: activeTab == index ? Colors.blue : Colors.white,
+                Icons.home,
               ),
-            );
-          }),
-        ),
+              label: "Home"),
+          BottomNavigationBarItem(
+              backgroundColor: Colors.black,
+              icon: Icon(Icons.playlist_add),
+              label: "Playlist"),
+          BottomNavigationBarItem(
+              backgroundColor: Colors.black,
+              icon: Icon(Icons.search),
+              label: "Search"),
+          BottomNavigationBarItem(
+              backgroundColor: Colors.black,
+              icon: Icon(Icons.person),
+              label: "Person")
+        ],
       ),
     );
   }
 }
-
-
