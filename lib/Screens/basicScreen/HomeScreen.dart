@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:music_app/homescreen/Mainscreen.dart';
-import 'package:music_app/homescreen/settingScreen.dart';
-import 'package:music_app/homescreen/Playlistscreen.dart';
-import 'package:music_app/homescreen/SearchScreen.dart';
+import 'package:music_app/Screens/homescreen/Mainscreen.dart';
+import 'package:music_app/Screens/homescreen/settingScreen.dart';
+import 'package:music_app/Screens/homescreen/Playlistscreen.dart';
+import 'package:music_app/Screens/homescreen/SearchScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,15 +13,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentindex = 0;
-  final _page =[
-    MainScreen(),PlaylistScreen(),SearchScreen(),PersonScreen(),
+  final _page = [
+    MainScreen(),
+    PlaylistScreen(),
+    SearchScreen(),
+    PersonScreen(),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 19, 19, 19),
-      
-      body: _page [_currentindex],
+      body: _page[_currentindex],
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.blue,
 
