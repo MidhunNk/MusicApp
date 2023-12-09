@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 19, 19, 19),
+      backgroundColor: const Color.fromARGB(255, 19, 19, 19),
       
       body: _page [_currentindex],
       bottomNavigationBar: BottomNavigationBar(
@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
               backgroundColor: Colors.black,
               icon: Icon(Icons.settings),
-              label: "Person")
+              label: "Settings")
         ],
       ),
     );

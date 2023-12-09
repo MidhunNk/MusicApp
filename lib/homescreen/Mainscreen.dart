@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/basicScreen/ProfileScreen.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -17,18 +18,43 @@ class MainScreen extends StatelessWidget {
               color: Colors.white, fontSize: 25, fontWeight: FontWeight.w500),
         ),
       ),
-      actions: const [
+     /* actions: const [
         Padding(
           padding: EdgeInsets.only(right: 15),
           child: Icon(
             Icons.person,
             color: Colors.white,
             
+            
           ),
         )
       ],
     ),
-    body: Container(
+   */
+   actions:  [
+          // Wrap the IconButton in a GestureDetector to handle the tap
+          GestureDetector(
+            onTap: () {
+              // Navigate to the profile page when the person icon is tapped
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ProfileScreen()),
+              );
+            },
+            child:const  Padding(
+              padding: EdgeInsets.only(right: 15),
+              child: Icon(
+                Icons.person,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+  
+  
+  
+   body: Container(
       child: const Column(
         children: [
           SizedBox(
