@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:music_app/HomeScreen.dart';
+import 'package:music_app/basicScreen/HomeScreen.dart';
 
 
 void main()
