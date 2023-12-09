@@ -33,7 +33,7 @@ class MyTextBox extends StatelessWidget {
                 onPressed: () {
                   _showSettingsDialog(context);
                 },
-                icon: const Icon(Icons.edit),
+                icon:const Icon(Icons.edit),
               ),
             ],
           ),

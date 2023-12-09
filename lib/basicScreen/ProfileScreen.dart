@@ -10,6 +10,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        leading: BackButton(color: Colors.white), 
         title:const Text(
           'PROFILE   PAGE',
           style: TextStyle(color: Color.fromARGB(255, 240, 243, 245)),
