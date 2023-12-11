@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/Screens/basicScreen/AboutScreen.dart';
 
 class PersonScreen extends StatelessWidget {
   const PersonScreen({super.key});
@@ -6,7 +7,7 @@ class PersonScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-                      backgroundColor:const Color.fromARGB(255, 17, 15, 15),
+      backgroundColor:const Color.fromARGB(255, 17, 15, 15),
 
       appBar: AppBar(
             backgroundColor:const Color.fromARGB(255, 33, 31, 31),
@@ -73,6 +74,10 @@ class PersonScreen extends StatelessWidget {
           ListTile(
             title:const Text('About',style: TextStyle(color: Colors.white),),
             onTap: () {
+               Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AboutPage()),
+              );
               // Handle about settings
             },
           ),
