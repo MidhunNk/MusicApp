@@ -14,10 +14,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentindex = 0;
   final _page = [
-    MainScreen(),
-    PlaylistScreen(),
-    SearchScreen(),
-    PersonScreen(),
+    const MainScreen(),
+    const PlaylistScreen(),
+    const SearchScreen(),
+    const PersonScreen(),
   ];
   @override
   Widget build(BuildContext context) {
