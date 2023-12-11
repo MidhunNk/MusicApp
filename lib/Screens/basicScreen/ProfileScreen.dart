@@ -8,9 +8,10 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       backgroundColor: Colors.black,
       appBar: AppBar(
-        leading: BackButton(color: Colors.white), 
+        leading: const BackButton(color: Colors.white), 
         title:const Text(
           'PROFILE   PAGE',
           style: TextStyle(color: Color.fromARGB(255, 240, 243, 245)),
@@ -45,7 +46,7 @@ class ProfileScreen extends StatelessWidget {
 
          MyTextBox(
           text:'abracadabraaaa',
-         sectionName: 'Bio',),
+         sectionName: 'Bio', ),
 
          MyTextiBox(text: 'Free', sectionName: 'Account'),
         
