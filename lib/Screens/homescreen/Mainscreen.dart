@@ -38,7 +38,7 @@ class MainScreen extends StatelessWidget {
               // Navigate to the profile page when the person icon is tapped
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                MaterialPageRoute(builder: (context) =>  ProfileScreen()),
               );
             },
             child: const Padding(
