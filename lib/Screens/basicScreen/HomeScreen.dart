@@ -14,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentindex = 0;
   final _page = [
-    const MainScreen(),
+     MainScreen(),
     const PlaylistScreen(),
     const SearchScreen(),
     const PersonScreen(),
