@@ -14,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentindex = 0;
   final _page = [
-     MainScreen(),
+    const MainScreen(),
     const PlaylistScreen(),
     const SearchScreen(),
     const PersonScreen(),
@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
               backgroundColor: Colors.black,
               icon: Icon(Icons.playlist_add),
-              label: "Playlist"),
+              label: "Library"),
           BottomNavigationBarItem(
               backgroundColor: Colors.black,
               icon: Icon(Icons.search),
