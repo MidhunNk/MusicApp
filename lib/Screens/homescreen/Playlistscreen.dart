@@ -11,7 +11,7 @@ class PlaylistScreen extends StatelessWidget {
      Widget ListBlock2() => Container(
         width: 200,
         height: 200,
-        child: Image.asset("assets/image/demo3.jpg"),
+        
 
       );
     return Scaffold(
@@ -67,6 +67,7 @@ class PlaylistScreen extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Row(
                 children: [
@@ -125,11 +126,13 @@ class PlaylistScreen extends StatelessWidget {
                 ],
               ),
               Container(
-            height: 1000,
+            height: 400,
+            width: 400,
+            color: Color.fromARGB(255, 26, 25, 25),
             child: Padding(
               padding: const EdgeInsets.only(left: 20),
               child: ListView.separated(
-                itemCount: 10,
+                itemCount: 25,
                 separatorBuilder: (context, index) => const SizedBox(
                   width: 20,
                 ),
@@ -145,6 +148,12 @@ class PlaylistScreen extends StatelessWidget {
             ),
 
           ),
+          SizedBox(height: 50,),
+          Padding(
+            padding: const EdgeInsets.only(top :12, right: 12),
+            child: FloatingActionButton(onPressed: (){}
+            ,child: Icon(Icons.queue_music_sharp,color: Color.fromARGB(255, 44, 44, 44),),backgroundColor: Color.fromARGB(255, 46, 255, 5),elevation: 0,),
+          )
             ],
           ),
         ));
