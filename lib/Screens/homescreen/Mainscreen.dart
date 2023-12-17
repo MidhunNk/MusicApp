@@ -97,7 +97,7 @@ class MainScreen extends StatelessWidget {
                   child: const Text(
                     "All",
                     style: TextStyle(
-                      color: Color.fromARGB(255, 201, 255, 216),
+                      color: Color.fromARGB(255, 0, 255, 72),
                       fontSize: 15,
                       fontWeight: FontWeight.w200,
                     ),
@@ -111,7 +111,7 @@ class MainScreen extends StatelessWidget {
                   child: const Text(
                     "Recommended",
                     style: TextStyle(
-                      color: Color.fromARGB(255, 201, 255, 216),
+                      color: Color.fromARGB(255, 0, 255, 72),
                       fontSize: 15,
                       fontWeight: FontWeight.w200,
                     ),
@@ -125,7 +125,7 @@ class MainScreen extends StatelessWidget {
                   child: const Text(
                     "Podcast",
                     style: TextStyle(
-                      color: Color.fromARGB(255, 201, 255, 216),
+                      color: Color.fromARGB(255, 0, 255, 72),
                       fontSize: 15,
                       fontWeight: FontWeight.w200,
                     ),
