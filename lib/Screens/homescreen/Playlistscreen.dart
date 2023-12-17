@@ -78,7 +78,7 @@ class PlaylistScreen extends StatelessWidget {
                       child: const Text(
                         "Playlists",
                         style: TextStyle(
-                          color: Color.fromARGB(255, 201, 255, 216),
+                          color: Color.fromARGB(255, 0, 255, 72),
                           fontSize: 15,
                           fontWeight: FontWeight.w200,
                         ),
@@ -92,7 +92,7 @@ class PlaylistScreen extends StatelessWidget {
                       child: const Text(
                         "Artists",
                         style: TextStyle(
-                          color: Color.fromARGB(255, 201, 255, 216),
+                          color: Color.fromARGB(255, 0, 255, 72),
                           fontSize: 15,
                           fontWeight: FontWeight.w200,
                         ),
@@ -106,7 +106,7 @@ class PlaylistScreen extends StatelessWidget {
                   child: const Text(
                     "Albums",
                     style: TextStyle(
-                      color: Color.fromARGB(255, 201, 255, 216),
+                      color: Color.fromARGB(255, 0, 255, 72),
                       fontSize: 15,
                       fontWeight: FontWeight.w200,
                     ),
