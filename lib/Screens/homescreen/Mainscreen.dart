@@ -4,10 +4,15 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:music_app/Screens/basicScreen/ProfileScreen.dart';
 import 'package:music_app/Services/categoryoperation.dart';
+import 'package:music_app/Services/musiclistOperation.dart';
+
+import 'package:music_app/Services/musiclistoperation2.dart';
 import 'package:music_app/models/category.dart';
 import 'package:music_app/models/musiclist.dart';
 
-import '../../Services/musiclistOperation.dart';
+import 'package:music_app/models/musiclist2.dart';
+
+
 
 class MainScreen extends StatelessWidget {
   // Remove const from the constructor
@@ -92,7 +97,7 @@ class MainScreen extends StatelessWidget {
         ),
         SizedBox(
           child: Padding(
-            padding: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(top: 5,bottom: 2),
             child: Text(
               musiclist.Desc,
               style: GoogleFonts.lato(
@@ -142,6 +147,131 @@ class MainScreen extends StatelessWidget {
       ],
     );
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  Widget createMusicListz(MusicList2 musiclist) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 8,
+        ),
+        Container(
+          
+            height: 180,
+            width: 180,
+            child: Image.asset(
+              musiclist.imageUrl,
+              fit: BoxFit.cover,
+            )),
+        Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Text(
+            musiclist.name,
+            style: GoogleFonts.lato(
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
+          ),
+        ),
+        SizedBox(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 5,bottom: 2),
+            child: Text(
+              musiclist.Desc,
+              style: GoogleFonts.lato(
+                  color: Colors.white,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w600),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget createMusicListzz(String label) {
+    List<MusicList2> musiclists = MusicOperation2.getMusic();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 20),
+          child: Text(
+            label,
+            textAlign: TextAlign.left,
+            style: const TextStyle(
+              color: Color.fromARGB(255, 255, 255, 255),
+              fontSize: 22,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Container(
+          color: Color.fromARGB(213, 0, 32, 9),
+          height: 250,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: ListView.separated(
+              itemCount: 4,
+              separatorBuilder: (context, index) => const SizedBox(
+                width: 10,
+              ),
+              itemBuilder: (context, index) =>
+                  createMusicListz(musiclists[index]),
+              scrollDirection: Axis.horizontal,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -294,6 +424,10 @@ class MainScreen extends StatelessWidget {
               //     ),
               //   ),
               createMusicList("KGF Made For You"),
+              SizedBox(
+                height: 20,
+              ),
+              createMusicListzz("Playlist For You"),
 
               // Container(
               //   height: 400,
