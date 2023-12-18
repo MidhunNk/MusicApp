@@ -17,12 +17,12 @@ class PlaylistScreen extends StatelessWidget {
     return Scaffold(
         backgroundColor: Colors.black,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight),
+          preferredSize:const Size.fromHeight(kToolbarHeight),
           child: Container(
             width: double.infinity,
             color: const Color.fromARGB(255, 28, 26, 26),
             child: AppBar(
-                backgroundColor: Color.fromARGB(255, 0, 0, 0),
+                backgroundColor:const Color.fromARGB(255, 0, 0, 0),
                 title: const Padding(
                   padding: EdgeInsets.only(left: 25),
                   child: Text(
@@ -115,20 +115,20 @@ class PlaylistScreen extends StatelessWidget {
               ),
                 ],
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Row(
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: IconButton(onPressed: (){}, icon: const Icon(Icons.sort,color: Colors.white,)),
                   ),
-                  Text("Recently Played",style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w500),),
+                 const Text("Recently Played",style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w500),),
                 ],
               ),
               Container(
             height: 400,
             width: 400,
-            color: Color.fromARGB(255, 26, 25, 25),
+            color:const Color.fromARGB(255, 26, 25, 25),
             child: Padding(
               padding: const EdgeInsets.only(left: 20),
               child: ListView.separated(
@@ -148,7 +148,7 @@ class PlaylistScreen extends StatelessWidget {
             ),
 
           ),
-          SizedBox(height: 50,),
+          const SizedBox(height: 50,),
           Padding(
             padding: const EdgeInsets.only(top :12, right: 12),
             child: FloatingActionButton(onPressed: (){}

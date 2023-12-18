@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:music_app/Screens/basicScreen/AboutScreen.dart';
+import 'package:music_app/Settings/AboutScreen.dart';
+import 'package:music_app/Settings/FeedBackScreen.dart';
+import 'package:music_app/Screens/basicScreen/ProfileScreen.dart';
+import 'package:music_app/Settings/AudioScreen.dart';
 
 class PersonScreen extends StatelessWidget {
   const PersonScreen({super.key});
@@ -26,12 +29,20 @@ class PersonScreen extends StatelessWidget {
           ListTile(
             title:const Text('Account Settings',style: TextStyle(color: Colors.white),),
             onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProfileScreen()),
+              );
               // Handle account settings
             },
           ),
           ListTile(
             title:const Text('Audio Settings',style: TextStyle(color: Colors.white),),
             onTap: () {
+               Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AudioPage()),
+              );
               // Handle audio settings
             },
           ),
@@ -68,6 +79,10 @@ class PersonScreen extends StatelessWidget {
           ListTile(
             title:const Text('Feedback and Support',style: TextStyle(color: Colors.white),),
             onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FeedbackScreen()),
+              );
               // Handle feedback and support settings
             },
           ),
@@ -93,12 +108,7 @@ class PersonScreen extends StatelessWidget {
               // Handle accessibility settings
             },
           ),
-          ListTile(
-            title:const Text('Connected Devices',style: TextStyle(color: Colors.white),),
-            onTap: () {
-              // Handle connected devices settings
-            },
-          ),
+          
         ],
       ),
     );
