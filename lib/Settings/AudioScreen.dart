@@ -12,6 +12,7 @@ class _AudioPageState extends State<AudioPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+                leading: const BackButton(color: Colors.white),
         title: const Text('Audio Player',style: TextStyle(
             color:  Color.fromARGB(255, 255, 255, 255), // Set text color to white
             fontWeight: FontWeight.bold, // Optional: Adjust font weight
