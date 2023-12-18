@@ -25,8 +25,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    nameController = TextEditingController(text: 'Name');
-    bioController = TextEditingController(text: 'Bio');
+    nameController = TextEditingController(text: 'Aswaj');
+    bioController = TextEditingController(text: 'its suiii time....');
   }
 
   @override
@@ -72,7 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: Colors.white,
                   ),                 
                   Text(
-                    'aswajpunda@mail.com',
+                    'aswajc@mail.com',
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white),
                   ),
@@ -81,7 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             const SizedBox(height: 40,),
             const Text(
-              'Aswaj:',
+              'Name:',
               style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
             ),
             if (isEditing)
@@ -96,7 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             const SizedBox(height: 20),
             const Text(
-              'do your thing...',
+              'Bio',
               style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
             ),
             if (isEditing)
