@@ -27,12 +27,12 @@ class MainScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
+        preferredSize:const Size.fromHeight(kToolbarHeight),
         child: Container(
           width: double.infinity,
           color: const Color.fromARGB(255, 28, 26, 26),
           child: AppBar(
-            backgroundColor: Color.fromARGB(255, 0, 0, 0),
+            backgroundColor:const Color.fromARGB(255, 0, 0, 0),
             title: const Padding(
               padding: EdgeInsets.only(left: 25),
               child: Text(
