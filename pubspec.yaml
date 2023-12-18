@@ -69,6 +69,11 @@ flutter:
   - assets/image/demo3.jpg
   - assets/image/demo4.jpg
   - assets/image/demo5.jpg
+  - assets/image/demolist.jpg
+  - assets/image/demolist2.jpg
+  - assets/image/demolist3.jpg
+  - assets/image/demolist4.jpg
+  
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
