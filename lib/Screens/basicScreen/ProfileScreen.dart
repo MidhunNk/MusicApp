@@ -96,7 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             const SizedBox(height: 20),
             const Text(
-              'Njan oru punda:',
+              'do your thing...',
               style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
             ),
             if (isEditing)
