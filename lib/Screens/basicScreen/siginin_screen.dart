@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:music_app/components/log_textfield.dart';
 import 'package:music_app/components/log_button.dart';
+import 'package:music_app/components/square_box.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -24,15 +25,18 @@ class LoginScreen extends StatelessWidget {
                 height: 49,
               ),
               //musicapp logo
-              Row(children: [
-                Image.asset(
-    "assets/image/demo6.jpg",
-    height: 50,
-    width: 50,
-  );
-              ],)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/image/demo6.jpg",
+                    height: 50,
+                    width: 50,
+                  ),
+                ],
+              ),
               const SizedBox(
-                height: 49,
+                height: 40,
               ),
               //Hola Amigo
               const Text(
@@ -122,41 +126,35 @@ class LoginScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              const SizedBox(
+                height: 30,
+              ),
               //google
-              Row(
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/image/google_old.jpg',
-                    height: 70,
-                    )
+                  SquareBox(imagepath: 'assets/image/google_old.jpg'),
                 ],
-              )
+              ),
+
+              const SizedBox(
+                height: 40,
+              ),
 
               //signup
+              Row(
+                children: [
+                  Text('Not a member Yet?'),
+                  SizedBox(
+                    width: 6,
+                  ),
+                  Text('Register Now'),
+                ],
+              )
             ],
           ),
         ),
       ),
     );
   }
-}
-
-class Logow extends StatelessWidget {
-  const Logow({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Logow();
-  }
-}
-
-@override
-Widget build(BuildContext context) {
-  return Image.asset(
-    "assets/image/demo6.jpg",
-    height: 50,
-    width: 50,
-  );
 }
