@@ -29,6 +29,7 @@ class LogTextField extends StatelessWidget {
           fillColor: const Color.fromARGB(255, 233, 232, 232),
           filled: true,
           hintText: hintText,
+          hintStyle: const TextStyle(color: Color.fromARGB(255, 152, 151, 151)),
         ),
       ),
     );

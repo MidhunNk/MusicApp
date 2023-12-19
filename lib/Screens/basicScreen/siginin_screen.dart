@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:music_app/components/log_textfield.dart';
 import 'package:music_app/components/log_button.dart';
@@ -7,19 +8,23 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   //controllers
-  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordcontroller = TextEditingController();
 
   //signin
-  void signUserIn() {}
+  void signUserIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text, password: passwordcontroller.text);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(31, 15, 15, 15),
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(
                 height: 49,
@@ -30,8 +35,8 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   Image.asset(
                     "assets/image/demo6.jpg",
-                    height: 50,
-                    width: 50,
+                    height: 60,
+                    width: 60,
                   ),
                 ],
               ),
@@ -43,7 +48,7 @@ class LoginScreen extends StatelessWidget {
                 "Hola Amigo",
                 style: TextStyle(
                   color: Color.fromARGB(255, 88, 227, 93),
-                  fontSize: 15,
+                  fontSize: 17,
                 ),
               ),
               const SizedBox(
@@ -52,8 +57,8 @@ class LoginScreen extends StatelessWidget {
 
               //username
               LogTextField(
-                controller: usernameController,
-                hintText: 'Username/email',
+                controller: emailController,
+                hintText: 'Email',
                 obscureText: false,
               ),
 
@@ -142,14 +147,28 @@ class LoginScreen extends StatelessWidget {
               ),
 
               //signup
-              Row(
-                children: [
-                  Text('Not a member Yet?'),
-                  SizedBox(
-                    width: 6,
-                  ),
-                  Text('Register Now'),
-                ],
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Not a member Yet?',
+                      style:
+                          TextStyle(color: Color.fromARGB(255, 103, 103, 103)),
+                    ),
+                    SizedBox(
+                      width: 6,
+                    ),
+                    Text(
+                      'Register Now',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               )
             ],
           ),

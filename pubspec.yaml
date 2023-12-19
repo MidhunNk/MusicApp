@@ -29,7 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cupertino_icons: ^1.0.2
-  firebase_auth: ^4.15.2
+  firebase_auth: ^4.15.3
   flutter:
     sdk: flutter
   hive_flutter: ^1.1.0
@@ -37,6 +37,7 @@ dependencies:
   cloud_firestore: ^4.13.5
   google_fonts: ^6.1.0
   firebase_core: ^2.24.2
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   build_runner: ^2.4.7
@@ -69,16 +70,14 @@ flutter:
   - assets/image/demo3.jpg
   - assets/image/demo4.jpg
   - assets/image/demo5.jpg
-<<<<<<< HEAD
   - assets/image/
-=======
   - assets/image/demolist.jpg
   - assets/image/demolist2.jpg
   - assets/image/demolist3.jpg
   - assets/image/demolist4.jpg
+  - .env
   
   
->>>>>>> 95e2e8f1f2bf45955a29e7b536b594799924c9f2
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
