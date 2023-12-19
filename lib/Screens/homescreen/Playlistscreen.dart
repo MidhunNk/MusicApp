@@ -7,7 +7,7 @@ class PlaylistScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int name1 =1;
+    
      Widget ListBlock2() => Container(
         width: 200,
         height: 200,
@@ -141,8 +141,7 @@ class PlaylistScreen extends StatelessWidget {
                 
                 scrollDirection: Axis.vertical,
                 
-              
-               
+          
                 
               ),
             ),
