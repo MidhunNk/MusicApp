@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:music_app/Screens/homescreen/Mainscreen.dart';
 import 'package:music_app/Screens/homescreen/settingScreen.dart';
 import 'package:music_app/Screens/homescreen/Playlistscreen.dart';
@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onPressed: () {},
                     icon: const Icon(
                       Icons.play_arrow,
-                      color: Colors.white,
+                      color: Color.fromARGB(255, 9, 255, 0),
                       size: 30,
                     )),
                 IconButton(
@@ -98,10 +98,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.white,
                       size: 30,
                     )),
+
+                    
                        IconButton(
+                       highlightColor: Colors.red,
                     onPressed: () {},
                     icon: const Icon(
                       Icons.favorite_border,
+
+                      
                       color: Colors.white,
                       size: 25,
                     )),
