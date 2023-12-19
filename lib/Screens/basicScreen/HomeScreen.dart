@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:music_app/Screens/homescreen/Mainscreen.dart';
 import 'package:music_app/Screens/homescreen/settingScreen.dart';
 import 'package:music_app/Screens/homescreen/Playlistscreen.dart';
-import 'package:music_app/Screens/homescreen/SearchScreen.dart';
+import 'package:music_app/Screens/homescreen/playscreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,8 +15,8 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentindex = 0;
   final _page = [
     const MainScreen(),
+    const MusicPlayer(),
     const PlaylistScreen(),
-    const SearchScreen(),
     const PersonScreen(),
   ];
   @override
@@ -43,12 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
               label: "Home"),
           BottomNavigationBarItem(
               backgroundColor: Colors.black,
-              icon: Icon(Icons.playlist_add),
-              label: "Library"),
+              icon: Icon(Icons.music_video),
+              label: "Play"),
           BottomNavigationBarItem(
               backgroundColor: Colors.black,
-              icon: Icon(Icons.search),
-              label: "Search"),
+              icon: Icon(Icons.playlist_add),
+              label: "Library"),
           BottomNavigationBarItem(
               backgroundColor: Colors.black,
               icon: Icon(Icons.settings),
