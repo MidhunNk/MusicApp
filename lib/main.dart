@@ -22,7 +22,7 @@ class MusicApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.black,
       ),
-      home: HomeScreen(),
+      home: AuthPage(),
     );
   }
 }
