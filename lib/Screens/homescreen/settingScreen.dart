@@ -78,7 +78,7 @@ class PersonScreen extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => notifiScreen()),
+                MaterialPageRoute(builder: (context) => NotificationPage()),
               );
               // Handle notification settings
             },
@@ -92,11 +92,13 @@ class PersonScreen extends StatelessWidget {
               // Handle offline playback settings
             },
           ),
-          ListTile(
-            title:const Text('Language and Region',style: TextStyle(color: Colors.white),),
-            onTap: () {
-              // Handle language and region settings
-            },
+         const ListTile(
+            title: Text('Language :  English',style: TextStyle(color: Colors.white),),
+            
+          ),
+          const ListTile(
+            title: Text('Region :  India',style: TextStyle(color: Colors.white),),
+            
           ),
           ListTile(
             title: const Text(

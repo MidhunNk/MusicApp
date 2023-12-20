@@ -7,6 +7,7 @@ import 'package:music_app/Services/categoryoperation.dart';
 import 'package:music_app/Services/musiclistoperation.dart';
 
 import 'package:music_app/Services/musiclistoperation2.dart';
+import 'package:music_app/Settings/notificationScreen.dart';
 import 'package:music_app/models/category.dart';
 import 'package:music_app/models/musiclist.dart';
 
@@ -296,40 +297,52 @@ class MainScreen extends StatelessWidget {
                 ),
               ),
               actions: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ProfileScreen()),
-                    );
-                  },
-                  child: const Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(right: 20),
-                        child: Icon(
-                          Icons.notifications,
-                          color: Color.fromARGB(255, 115, 255, 0),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 20),
-                        child: Icon(
-                          Icons.history,
-                          color: Color.fromARGB(255, 64, 70, 59),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 15),
-                        child: Icon(
-                          Icons.person,
-                          color: Color.fromARGB(255, 251, 251, 251),
-                        ),
-                      ),
-                    ],
-                  ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NotificationPage()),
+                );
+              },
+              child:const Padding(
+                padding: EdgeInsets.only(right: 20),
+                child: Icon(
+                  Icons.notifications,
+                  color: Color.fromARGB(255, 115, 255, 0),
                 ),
-              ],
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen()),
+                );
+              },
+              child:const Padding(
+                padding: EdgeInsets.only(right: 20),
+                child: Icon(
+                  Icons.history,
+                  color: Color.fromARGB(255, 64, 70, 59),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen()),
+                );
+              },
+              child:const Padding(
+                padding: EdgeInsets.only(right: 15),
+                child: Icon(
+                  Icons.person,
+                  color: Color.fromARGB(255, 251, 251, 251),
+                ),
+              ),
+            ),
+          ],
             ),
           ),
         ),
