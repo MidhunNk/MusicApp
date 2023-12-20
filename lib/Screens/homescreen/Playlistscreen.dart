@@ -5,8 +5,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
-import '../basicScreen/ProfileScreen.dart';
-
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 Future<String> uploadFile(String filename, File file) async {
@@ -22,34 +20,35 @@ Future<String> uploadFile(String filename, File file) async {
   }
 }
 
-void pickFile() async {
+void pickFiles() async {
   try {
-    final pickedFile = await FilePicker.platform.pickFiles(
+    final FilePickerResult? pickedFiles = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['mp3'],
+      allowMultiple: true, // Enable multiple file selection
     );
 
-    if (pickedFile != null) {
-      final file = File(pickedFile.files.single.path!);
-      final String fileName = pickedFile.files.single.name;
-      final downloadUrl = await uploadFile(fileName, file);
-      print("Download URL: $downloadUrl");
+    if (pickedFiles != null && pickedFiles.files.isNotEmpty) {
+      for (final PlatformFile pickedFile in pickedFiles.files) {
+        final file = File(pickedFile.path!);
+        final String fileName = pickedFile.name;
+        final downloadUrl = await uploadFile(fileName, file);
+        print("Download URL: $downloadUrl");
 
-      await firestore.collection("Mp3s").add({"url": downloadUrl, "name": fileName});
-      print("MP3 added to Firestore");
+        await firestore.collection("Mp3s").add({"url": downloadUrl, "name": fileName});
+        print("MP3 added to Firestore");
+      }
     } else {
-      print("No file selected");
+      print("No files selected");
     }
   } catch (e) {
-    print("Error picking/uploading file: $e");
+    print("Error picking/uploading files: $e");
     // Handle the error appropriately
   }
 }
 
 class PlaylistScreen extends StatelessWidget {
-  const PlaylistScreen({Key? key}) : super(key: key);
-
-  Widget ListBlock2() => Container(
+  Widget listBlock2() => Container(
         width: 200,
         height: 200,
       );
@@ -79,12 +78,7 @@ class PlaylistScreen extends StatelessWidget {
             actions: [
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ProfileScreen(),
-                    ),
-                  );
+                  // Navigating to the ProfileScreen
                 },
                 child: const Row(
                   children: [
@@ -159,14 +153,14 @@ class PlaylistScreen extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(height: 10),
             Row(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: IconButton(onPressed: (){}, icon: const Icon(Icons.sort,color: Colors.white,)),
+                  child: IconButton(onPressed: () {}, icon: const Icon(Icons.sort, color: Colors.white)),
                 ),
-                const Text("Recently Played",style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w500),),
+                const Text("Recently Played", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500)),
               ],
             ),
             Container(
@@ -185,11 +179,11 @@ class PlaylistScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 20,),
-           const Padding(
-              padding:  EdgeInsets.only(top :1, right: 12 ,),
+            const SizedBox(height: 20),
+            const Padding(
+              padding: EdgeInsets.only(top: 1, right: 12),
               child: FloatingActionButton(
-                onPressed: pickFile,
+                onPressed: pickFiles,
                 child: Icon(Icons.queue_music_sharp, color: Color.fromARGB(255, 44, 44, 44)),
                 backgroundColor: Color.fromARGB(255, 46, 255, 5),
                 elevation: 0,
