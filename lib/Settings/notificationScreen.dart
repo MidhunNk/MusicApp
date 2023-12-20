@@ -6,7 +6,6 @@ class NotificationPage extends StatelessWidget {
     'New musics are here.Lets catch up this week',
     '🎉 Your favorite artist just dropped a new album! Check it out now.',
     '🎵 New playlist curated just for you! Discover fresh tracks today.',
-
     'App update available. Tap to install.',
     // Add more notifications as needed
   ];
