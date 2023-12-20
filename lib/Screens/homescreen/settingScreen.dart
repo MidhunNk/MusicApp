@@ -3,6 +3,8 @@ import 'package:music_app/Settings/AboutScreen.dart';
 import 'package:music_app/Settings/FeedBackScreen.dart';
 import 'package:music_app/Screens/basicScreen/ProfileScreen.dart';
 import 'package:music_app/Settings/AudioScreen.dart';
+import 'package:music_app/Settings/dataUsageScreen.dart';
+import 'package:music_app/Settings/notificationScreen.dart';
 
 class PersonScreen extends StatelessWidget {
   const PersonScreen({super.key});
@@ -55,6 +57,10 @@ class PersonScreen extends StatelessWidget {
           ListTile(
             title:const Text('Notifications',style: TextStyle(color: Colors.white),),
             onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => notifiScreen()),
+              );
               // Handle notification settings
             },
           ),
@@ -63,13 +69,7 @@ class PersonScreen extends StatelessWidget {
             onTap: () {
               // Handle offline playback settings
             },
-          ),
-          ListTile(
-            title:const Text('Language and Region',style: TextStyle(color: Colors.white),),
-            onTap: () {
-              // Handle language and region settings
-            },
-          ),
+          ),          
           ListTile(
             title:const Text('Privacy and Security',style: TextStyle(color: Colors.white),),
             onTap: () {
@@ -93,13 +93,15 @@ class PersonScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(builder: (context) => AboutPage()),
               );
-              // Handle about settings
             },
           ),
           ListTile(
             title:const Text('Data Usage',style: TextStyle(color: Colors.white),),
             onTap: () {
-              // Handle data usage settings
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => DataUsagePage()),
+              );
             },
           ),
           ListTile(
