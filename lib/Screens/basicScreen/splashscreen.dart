@@ -11,7 +11,7 @@ class Splashscreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           
-          children:[ 
+          children:[  
            Padding(
                 padding: const EdgeInsets.only(top: 300, left: 5),
                 child: Container(
