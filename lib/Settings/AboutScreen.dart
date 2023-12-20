@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/Settings/Creators.dart';
 
 class AboutPage extends StatelessWidget {
   @override
@@ -57,6 +58,16 @@ class AboutPage extends StatelessWidget {
           ListTile(
             title:const Text('Privacy Policy',style: TextStyle(color: Colors.white),),
             onTap: () {
+              // Handle privacy policy
+            },
+          ),
+          ListTile(
+            title:const Text('Creators',style: TextStyle(color: Colors.white),),
+            onTap: () {
+               Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CreatorsPage()),
+              );
               // Handle privacy policy
             },
           ),
