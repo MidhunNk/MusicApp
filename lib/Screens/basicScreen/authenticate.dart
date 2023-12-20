@@ -1,0 +1,29 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:music_app/Screens/basicScreen/HomeScreen.dart';
+import 'package:music_app/Screens/basicScreen/siginin_screen.dart';
+
+class AuthPage extends StatelessWidget {
+  const AuthPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: StreamBuilder<User?>(
+        //user logged in or not
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          //signed in
+          if (snapshot.hasData) {
+            return HomeScreen();
+          }
+
+          //not signed in
+          else {
+            return LoginScreen();
+          }
+        },
+      ),
+    );
+  }
+}

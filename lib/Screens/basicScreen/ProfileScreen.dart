@@ -1,4 +1,6 @@
+
 import 'package:flutter/material.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -64,13 +66,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Center(
-              child:  Column(
+              child: Column(
                 children: [
                   Icon(
                     Icons.person,
                     size: 80,
                     color: Colors.white,
-                  ),                 
+                  ),
                   Text(
                     'aswajc@mail.com',
                     textAlign: TextAlign.center,
@@ -79,15 +81,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 40,),
+            const SizedBox(
+              height: 40,
+            ),
             const Text(
               'Name:',
-              style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
             ),
             if (isEditing)
               TextFormField(
                 controller: nameController,
-                style: const TextStyle(fontSize: 16,color: Color.fromARGB(255, 175, 170, 170),),
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Color.fromARGB(255, 175, 170, 170),
+                ),
               )
             else
               Text(
@@ -97,12 +107,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(height: 20),
             const Text(
               'Bio',
-              style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
             ),
             if (isEditing)
               TextFormField(
                 controller: bioController,
-                style: const TextStyle(fontSize: 16, color: Color.fromARGB(255, 175, 170, 170),),
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Color.fromARGB(255, 175, 170, 170),
+                ),
               )
             else
               Text(
@@ -113,13 +129,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
             GestureDetector(
               onTap: toggleEditMode,
               child: Padding(
-                padding: const EdgeInsets.only(left: 140,right: 140,),
+                padding: const EdgeInsets.only(
+                  left: 140,
+                  right: 140,
+                ),
                 child: Container(
                   color: Colors.grey,
-                  child:const Center(
+                  child: const Center(
                     child: Padding(
-                      padding:  EdgeInsets.all(8.0),
-                      child:  Text(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
                         'Edit',
                         style: TextStyle(
                           color: Colors.white,
@@ -132,13 +151,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
             ),
-            
           ],
-          
         ),
-        
       ),
-      
     );
   }
 }
