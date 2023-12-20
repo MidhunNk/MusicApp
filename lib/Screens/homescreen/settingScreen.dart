@@ -4,6 +4,8 @@ import 'package:music_app/Settings/AboutScreen.dart';
 import 'package:music_app/Settings/FeedBackScreen.dart';
 import 'package:music_app/Screens/basicScreen/ProfileScreen.dart';
 import 'package:music_app/Settings/AudioScreen.dart';
+import 'package:music_app/Settings/dataUsageScreen.dart';
+import 'package:music_app/Settings/notificationScreen.dart';
 
 class PersonScreen extends StatelessWidget {
   const PersonScreen({super.key});
@@ -74,6 +76,10 @@ class PersonScreen extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
             onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => notifiScreen()),
+              );
               // Handle notification settings
             },
           ),
@@ -87,10 +93,7 @@ class PersonScreen extends StatelessWidget {
             },
           ),
           ListTile(
-            title: const Text(
-              'Language and Region',
-              style: TextStyle(color: Colors.white),
-            ),
+            title:const Text('Language and Region',style: TextStyle(color: Colors.white),),
             onTap: () {
               // Handle language and region settings
             },
@@ -127,7 +130,6 @@ class PersonScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(builder: (context) => AboutPage()),
               );
-              // Handle about settings
             },
           ),
           ListTile(
@@ -136,7 +138,10 @@ class PersonScreen extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
             onTap: () {
-              // Handle data usage settings
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => DataUsagePage()),
+              );
             },
           ),
           ListTile(
