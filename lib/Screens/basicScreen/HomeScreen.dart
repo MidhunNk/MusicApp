@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final _page = [
     const MainScreen(),
     const MusicPlayer(),
-    const PlaylistScreen(),
+     PlaylistScreen(),
     const PersonScreen(),
   ];
 
