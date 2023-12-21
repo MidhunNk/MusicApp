@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:music_app/Screens/basicScreen/HomeScreen.dart';
-import 'package:music_app/Screens/basicScreen/siginin_screen.dart';
+import 'package:music_app/Screens/basicScreen/signin_or_up.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -20,7 +20,7 @@ class AuthPage extends StatelessWidget {
 
           //not signed in
           else {
-            return LoginScreen();
+            return SignInOrUp();
           }
         },
       ),

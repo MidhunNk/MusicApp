@@ -1,11 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:music_app/Services/google_auth.dart';
 import 'package:music_app/components/log_textfield.dart';
 import 'package:music_app/components/log_button.dart';
 import 'package:music_app/components/square_box.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
+  final Function()? onTap;
+  LoginScreen({
+    super.key,
+    required this.onTap,
+  });
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -38,9 +43,6 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.pop(context);
       signinErrorMessage(e.code);
     }
-
-    //done load
-    Navigator.pop(context);
   }
 
   void signinErrorMessage(String m) {
@@ -140,6 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 //signin
                 LogButton(
+                  text: "Sign In",
                   onTap: signUserIn,
                 ),
 
@@ -179,10 +182,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 30,
                 ),
                 //google
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SquareBox(imagepath: 'assets/image/google_old.jpg'),
+                    SquareBox(
+                        onTap: () => GoogleAuth().signInWithGoogle(),
+                        imagepath: 'assets/image/google.jpg'),
                   ],
                 ),
 
@@ -191,24 +196,27 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
 
                 //signup
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'Not a member Yet?',
                         style: TextStyle(
                             color: Color.fromARGB(255, 103, 103, 103)),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 6,
                       ),
-                      Text(
-                        'Register Now',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
+                      GestureDetector(
+                        onTap: widget.onTap,
+                        child: const Text(
+                          'Register Now',
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ],
