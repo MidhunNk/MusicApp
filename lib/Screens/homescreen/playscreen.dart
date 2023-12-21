@@ -147,7 +147,7 @@ class MusicPlayer extends StatefulWidget {
 }
 
 class _MusicPlayState extends State<MusicPlayer> {
-    String _formatDuration(Duration duration) {
+  String _formatDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
     String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
@@ -177,15 +177,12 @@ class _MusicPlayState extends State<MusicPlayer> {
       });
     });
 
-
-
     _audioPlayer.onPlayerStateChanged.listen((PlayerState state) {
       setState(() {
         // Update the UI based on player state if needed
       });
     });
   }
-
 
   @override
   void dispose() {
@@ -195,7 +192,7 @@ class _MusicPlayState extends State<MusicPlayer> {
 
   Future<void> play() async {
     final url =
-"https://firebasestorage.googleapis.com/v0/b/musicapp-156cc.appspot.com/o/Mp3s%2FOrdinary%20Person%20(From%20_Leo_).mp3.mp3?alt=media&token=c641ce36-9959-4026-8680-769953e9d260";
+        "https://firebasestorage.googleapis.com/v0/b/musicapp-156cc.appspot.com/o/Mp3s%2FOrdinary%20Person%20(From%20_Leo_).mp3.mp3?alt=media&token=c641ce36-9959-4026-8680-769953e9d260";
 
     if (_audioPlayer.state == PlayerState.playing) {
       _audioPlayer.pause();
@@ -371,7 +368,6 @@ class _MusicPlayState extends State<MusicPlayer> {
               onChanged: (value) {
                 setState(() {
                   _currentSliderValue = value;
-                  
                 });
                 seekTo(value);
               },

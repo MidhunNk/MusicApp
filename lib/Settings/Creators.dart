@@ -98,7 +98,7 @@ class CreatorsPage extends StatelessWidget {
             Expanded(
               flex: 1,
               child: CircleAvatar(
-                radius: 40,
+                radius: 45,
                 backgroundImage: AssetImage(photoUrl),
               ),
             ),
