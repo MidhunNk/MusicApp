@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class LogButton extends StatelessWidget {
   final Function()? onTap;
+  final String text;
 
-  const LogButton({
+  LogButton({
     super.key,
     required this.onTap,
+    required this.text,
   });
 
   @override
@@ -19,10 +21,10 @@ class LogButton extends StatelessWidget {
           color: Colors.blue,
           borderRadius: BorderRadius.circular(7),
         ),
-        child: const Center(
+        child: Center(
           child: Text(
-            "Sign In",
-            style: TextStyle(
+            text,
+            style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 16,

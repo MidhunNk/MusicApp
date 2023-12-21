@@ -9,7 +9,8 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 Future<String> uploadFile(String filename, File file) async {
   try {
-    final reference = FirebaseStorage.instance.ref().child("Mp3s/$filename.mp3");
+    final reference =
+        FirebaseStorage.instance.ref().child("Mp3s/$filename.mp3");
     final uploadTask = reference.putFile(file);
     await uploadTask.whenComplete(() => null);
     final downloadUrl = await reference.getDownloadURL();
@@ -35,7 +36,9 @@ void pickFiles() async {
         final downloadUrl = await uploadFile(fileName, file);
         print("Download URL: $downloadUrl");
 
-        await firestore.collection("Mp3s").add({"url": downloadUrl, "name": fileName});
+        await firestore
+            .collection("Mp3s")
+            .add({"url": downloadUrl, "name": fileName});
         print("MP3 added to Firestore");
       }
     } else {
@@ -158,9 +161,15 @@ class PlaylistScreen extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: IconButton(onPressed: () {}, icon: const Icon(Icons.sort, color: Colors.white)),
+                  child: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.sort, color: Colors.white)),
                 ),
-                const Text("Recently Played", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500)),
+                const Text("Recently Played",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500)),
               ],
             ),
             Container(
@@ -174,7 +183,8 @@ class PlaylistScreen extends StatelessWidget {
                   separatorBuilder: (context, index) => const SizedBox(
                     width: 20,
                   ),
-                  itemBuilder: (context, index) => Text("Hello $index", style: TextStyle(color: Colors.white, fontSize: 20)),
+                  itemBuilder: (context, index) => Text("Hello $index",
+                      style: TextStyle(color: Colors.white, fontSize: 20)),
                   scrollDirection: Axis.vertical,
                 ),
               ),
@@ -184,7 +194,8 @@ class PlaylistScreen extends StatelessWidget {
               padding: EdgeInsets.only(top: 1, right: 12),
               child: FloatingActionButton(
                 onPressed: pickFiles,
-                child: Icon(Icons.queue_music_sharp, color: Color.fromARGB(255, 44, 44, 44)),
+                child: Icon(Icons.queue_music_sharp,
+                    color: Color.fromARGB(255, 44, 44, 44)),
                 backgroundColor: Color.fromARGB(255, 46, 255, 5),
                 elevation: 0,
               ),
