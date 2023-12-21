@@ -4,7 +4,7 @@
 
 //   @override
 //   Widget build(BuildContext context) {
-    
+
 //     Widget ListBlock4() => Container(
 //           width: 200,
 //           height: 200,
@@ -136,32 +136,102 @@
 //     );
 //   }
 // }
-
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class MusicPlayer extends StatefulWidget {
-  const MusicPlayer({super.key});
+  const MusicPlayer({Key? key}) : super(key: key);
 
   @override
-  State<MusicPlayer> createState() => _MusicPlayState();
+  _MusicPlayState createState() => _MusicPlayState();
 }
 
 class _MusicPlayState extends State<MusicPlayer> {
-  double _currentslidervalue = 20;
+  late AudioPlayer _audioPlayer;
+  double _currentSliderValue = 0;
+  Duration _totalDuration = Duration();
+
+  @override
+  void initState() {
+    super.initState();
+    _audioPlayer = AudioPlayer();
+    _audioPlayer.onDurationChanged.listen((Duration duration) {
+      setState(() {
+        _totalDuration = duration;
+      });
+    });
+
+    _audioPlayer.onPlayerStateChanged.listen((PlayerState state) {
+      // Handle player state changes if needed
+    });
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
+  }
+
+  Future<void> play() async {
+    // Replace with the URL of your cloud-stored audio file
+    final url =
+        "https://firebasestorage.googleapis.com/v0/b/musicapp-156cc.appspot.com/o/Mp3s%2FBadass%20(From%20_Leo_).mp3.mp3?alt=media&token=fbc89fc6-d6e8-41cd-9798-c48c8e5529e5";
+    final player = AudioPlayer();
+    await player.play(UrlSource(url));
+  }
+
+  void pause() {
+    _audioPlayer.pause();
+  }
+
+  void stop() {
+    _audioPlayer.stop();
+  }
+
+  void seekTo(double seconds) {
+    Duration newPosition = Duration(seconds: seconds.toInt());
+    _audioPlayer.seek(newPosition);
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(50), child: getAppbar()),
+        preferredSize: const Size.fromHeight(50),
+        child: AppBar(
+          title: const Padding(
+            padding: EdgeInsets.only(left: 15, top: 10),
+            child: Text(
+              "Search",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+                fontSize: 25,
+              ),
+            ),
+          ),
+          backgroundColor: Colors.black,
+          elevation: 0,
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.more_vert,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-             Center(
+            Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 5),
                 child: Container(
@@ -175,18 +245,19 @@ class _MusicPlayState extends State<MusicPlayer> {
                     ),
                   ),
                   child: const TextField(
-                      decoration: InputDecoration(
-                    hintText: "Search for Artists, Songs, Albums",
-                    hintStyle: TextStyle(
-                      color: Color.fromARGB(255, 57, 57, 57),
-                      fontSize: 15,
+                    decoration: InputDecoration(
+                      hintText: "Search for Artists, Songs, Albums",
+                      hintStyle: TextStyle(
+                        color: Color.fromARGB(255, 57, 57, 57),
+                        fontSize: 15,
+                      ),
+                      border: InputBorder.none,
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Colors.black,
+                      ),
                     ),
-                    border: InputBorder.none,
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Colors.black,
-                    ),
-                  )),
+                  ),
                 ),
               ),
             ),
@@ -198,15 +269,17 @@ class _MusicPlayState extends State<MusicPlayer> {
                     width: size.width - 80,
                     height: size.width - 80,
                     decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Color.fromARGB(255, 5, 36, 0),
-                              offset: Offset(-10, 40),
-                              blurRadius: 30,
-                              spreadRadius: 5)
-                        ]),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromARGB(255, 5, 36, 0),
+                          offset: Offset(-10, 40),
+                          blurRadius: 30,
+                          spreadRadius: 5,
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 Padding(
@@ -215,12 +288,14 @@ class _MusicPlayState extends State<MusicPlayer> {
                     width: size.width - 80,
                     height: size.width - 80,
                     decoration: BoxDecoration(
-                        image: const DecorationImage(
-                            image: AssetImage('assets/image/playdemo.jpg'),
-                            fit: BoxFit.cover),
-                        borderRadius: BorderRadius.circular(20)),
+                      image: const DecorationImage(
+                        image: AssetImage('assets/image/playdemo.jpg'),
+                        fit: BoxFit.cover,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                   ),
-                )
+                ),
               ],
             ),
             const SizedBox(
@@ -229,11 +304,12 @@ class _MusicPlayState extends State<MusicPlayer> {
             Row(
               children: [
                 IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.folder_open_outlined,
-                      color: Colors.white,
-                    )),
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.folder_open_outlined,
+                    color: Colors.white,
+                  ),
+                ),
                 SizedBox(
                   width: 70,
                 ),
@@ -243,54 +319,56 @@ class _MusicPlayState extends State<MusicPlayer> {
                     Text(
                       'EveryDay',
                       style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Text(
                       ' Currently Playing  Ariana',
                       style: TextStyle(
-                          color: Color.fromARGB(255, 97, 97, 97),
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold),
+                        color: Color.fromARGB(255, 97, 97, 97),
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
             const SizedBox(
               height: 20,
             ),
             Slider(
-                activeColor: Color.fromRGBO(0, 255, 64, 1),
-                value: _currentslidervalue,
-                min: 0,
-                max: 200,
-                onChanged: (value) {
-                  setState(() {
-                    _currentslidervalue = value;
-                  });
-                }),
+              activeColor: Color.fromRGBO(0, 255, 64, 1),
+              value: _currentSliderValue,
+              min: 0,
+              max: _totalDuration.inSeconds
+                  .toDouble(), // Set to the duration of the audio file,
+              onChanged: (value) {
+                seekTo(value);
+              },
+            ),
             const Padding(
               padding: EdgeInsets.only(left: 20, right: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  //SizedBox(width: 20,),
                   Text(
                     '1:20',
                     style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  //SizedBox(width: 250,),
                   Text(
                     '3:20',
                     style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
@@ -302,48 +380,63 @@ class _MusicPlayState extends State<MusicPlayer> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.shuffle,
-                      color: Color.fromARGB(255, 112, 112, 112),
-                      size: 30,
-                    )),
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.shuffle,
+                    color: Color.fromARGB(255, 112, 112, 112),
+                    size: 30,
+                  ),
+                ),
                 IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.skip_previous,
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.skip_previous,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    print("Button Pressed");
+                     print("Player State: ${_audioPlayer.state}");
+                    if (_audioPlayer.state == PlayerState.paused) {
+                      _audioPlayer.resume();
+                    } else {
+                      play();
+                    }
+                  },
+                  icon: Container(
+                    height: 60,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color.fromRGBO(0, 255, 64, 1),
+                    ),
+                    child: Icon(
+                      _audioPlayer.state == PlayerState.playing
+                          ? Icons.pause
+                          : Icons.play_arrow,
                       color: Colors.white,
-                      size: 30,
-                    )),
+                      size: 40,
+                    ),
+                  ),
+                ),
                 IconButton(
-                    onPressed: () {},
-                    icon: Container(
-                      height: 60,
-                      width: 60,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color.fromRGBO(0, 255, 64, 1),
-                      ),
-                      child: const Icon(
-                        Icons.play_arrow,
-                        color: Colors.white,
-                        size: 40,
-                      ),
-                    )),
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.skip_next,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                ),
                 IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.skip_next,
-                      color: Colors.white,
-                      size: 30,
-                    )),
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.repeat,
-                      color: Color.fromARGB(255, 110, 110, 110),
-                      size: 30,
-                    )),
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.repeat,
+                    color: Color.fromARGB(255, 110, 110, 110),
+                    size: 30,
+                  ),
+                ),
               ],
             ),
             const SizedBox(
@@ -355,86 +448,97 @@ class _MusicPlayState extends State<MusicPlayer> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.favorite_border,
-                        color: Colors.white,
-                        size: 28,
-                      )),
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.favorite_border,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                  ),
                   IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.share_outlined,
-                        color: Colors.white,
-                        size: 28,
-                      )),
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.share_outlined,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                  ),
                 ],
               ),
             ),
             const SizedBox(
               height: 10,
             ),
-            Stack(children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 20, left: 30, right: 20),
-                child: Container(
-                  width: size.width - 50,
-                  height: size.width - -220,
-                  decoration: BoxDecoration(
+            Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 20, left: 30, right: 20),
+                  child: Container(
+                    width: size.width - 50,
+                    height: size.width - -220,
+                    decoration: BoxDecoration(
                       color: Color.fromARGB(255, 24, 24, 24),
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: const [
                         BoxShadow(
-                            color: Color.fromARGB(255, 5, 36, 0),
-                            offset: Offset(-10, 40),
-                            blurRadius: 30,
-                            spreadRadius: 5)
-                      ]),
+                          color: Color.fromARGB(255, 5, 36, 0),
+                          offset: Offset(-10, 40),
+                          blurRadius: 30,
+                          spreadRadius: 5,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              Column(
-                children: [
-                  Padding(
+                Column(
+                  children: [
+                    Padding(
                       padding:
                           const EdgeInsets.only(top: 40, left: 1, right: 100),
                       child: Text(
                         'About the Artist',
-                        style: GoogleFonts.roboto(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      )),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                     Padding(
-                  padding: const EdgeInsets.only(top: 20, left: 40, right: 20),
-                  child: Container(
-                    width: size.width - 80,
-                    height: size.width - 80,
-                    decoration: BoxDecoration(
-                        image: const DecorationImage(
+                      padding:
+                          const EdgeInsets.only(top: 20, left: 40, right: 20),
+                      child: Container(
+                        width: size.width - 80,
+                        height: size.width - 80,
+                        decoration: BoxDecoration(
+                          image: const DecorationImage(
                             image: AssetImage('assets/image/demo2.jpg'),
-                            fit: BoxFit.cover),
-                        borderRadius: BorderRadius.circular(20)),
-                  ),
-                ),
-
-                  SizedBox(
-                    width: size.width - 70,
-                    height: size.width - 80,
-                    child: Padding(
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: size.width - 70,
+                      height: size.width - 80,
+                      child: Padding(
                         padding:
                             const EdgeInsets.only(top: 20, left: 30, right: 20),
                         child: Text(
-                          "Ariana Grande is an accomplished American singer, songwriter, and actress born on June 26, 1993, in Boca Raton, Florida. Rising to fame through her role as Cat Valentine on Nickelodeon's Victorious and Sam & Cat, Ariana made a successful transition to a music career. ",
-                          style: GoogleFonts.roboto(
+                          "Ariana Grande is an accomplished American singer, songwriter, and actress born on June 26, 1993, in Boca Raton, Florida. Rising to fame through her role as Cat Valentine on Nickelodeon's Victorious and Sam & Cat, Ariana made a successful transition to a music career.",
+                          style: TextStyle(
                             color: Color.fromARGB(255, 198, 197, 197),
                             fontSize: 16,
                             fontStyle: FontStyle.italic,
                           ),
-                        )),
-                  ),
-                ],
-              ),
-            ])
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -442,24 +546,8 @@ class _MusicPlayState extends State<MusicPlayer> {
   }
 }
 
-Widget getAppbar() {
-  return AppBar(
-    title: const Padding(
-      padding: const EdgeInsets.only(left: 15,top: 10),
-      child: Text("Search",style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 25),),
-    ),
-    backgroundColor: Colors.black,
-    elevation: 0,
-    actions: [
-      IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.more_vert,
-            color: Colors.white,
-          ))
-    ],
-  );
+void main() {
+  runApp(MaterialApp(
+    home: MusicPlayer(),
+  ));
 }
