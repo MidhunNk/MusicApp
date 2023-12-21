@@ -147,24 +147,45 @@ class MusicPlayer extends StatefulWidget {
 }
 
 class _MusicPlayState extends State<MusicPlayer> {
+    String _formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    return '${twoDigits(duration.inMinutes)}:$twoDigitMinutes';
+  }
+
   late AudioPlayer _audioPlayer;
   double _currentSliderValue = 0;
   Duration _totalDuration = Duration();
+  Duration _currentPosition = Duration();
 
   @override
   void initState() {
     super.initState();
     _audioPlayer = AudioPlayer();
+
     _audioPlayer.onDurationChanged.listen((Duration duration) {
       setState(() {
         _totalDuration = duration;
       });
     });
 
+    _audioPlayer.onPositionChanged.listen((Duration duration) {
+      setState(() {
+        _currentPosition = duration;
+        _currentSliderValue = duration.inSeconds.toDouble();
+      });
+    });
+
+
+
     _audioPlayer.onPlayerStateChanged.listen((PlayerState state) {
-      // Handle player state changes if needed
+      setState(() {
+        // Update the UI based on player state if needed
+      });
     });
   }
+
 
   @override
   void dispose() {
@@ -173,11 +194,14 @@ class _MusicPlayState extends State<MusicPlayer> {
   }
 
   Future<void> play() async {
-    // Replace with the URL of your cloud-stored audio file
     final url =
-        "https://firebasestorage.googleapis.com/v0/b/musicapp-156cc.appspot.com/o/Mp3s%2FBadass%20(From%20_Leo_).mp3.mp3?alt=media&token=fbc89fc6-d6e8-41cd-9798-c48c8e5529e5";
-    final player = AudioPlayer();
-    await player.play(UrlSource(url));
+"https://firebasestorage.googleapis.com/v0/b/musicapp-156cc.appspot.com/o/Mp3s%2FOrdinary%20Person%20(From%20_Leo_).mp3.mp3?alt=media&token=c641ce36-9959-4026-8680-769953e9d260";
+
+    if (_audioPlayer.state == PlayerState.playing) {
+      _audioPlayer.pause();
+    } else {
+      await _audioPlayer.play(UrlSource(url));
+    }
   }
 
   void pause() {
@@ -289,7 +313,7 @@ class _MusicPlayState extends State<MusicPlayer> {
                     height: size.width - 80,
                     decoration: BoxDecoration(
                       image: const DecorationImage(
-                        image: AssetImage('assets/image/playdemo.jpg'),
+                        image: AssetImage('assets/image/demo11.jpg'),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: BorderRadius.circular(20),
@@ -317,7 +341,7 @@ class _MusicPlayState extends State<MusicPlayer> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      'EveryDay',
+                      'Ordinary Person',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -343,19 +367,22 @@ class _MusicPlayState extends State<MusicPlayer> {
               activeColor: Color.fromRGBO(0, 255, 64, 1),
               value: _currentSliderValue,
               min: 0,
-              max: _totalDuration.inSeconds
-                  .toDouble(), // Set to the duration of the audio file,
+              max: _totalDuration.inSeconds.toDouble(),
               onChanged: (value) {
+                setState(() {
+                  _currentSliderValue = value;
+                  
+                });
                 seekTo(value);
               },
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(left: 20, right: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '1:20',
+                    '${_formatDuration(Duration(seconds: _currentSliderValue.toInt()))}', // Update this line
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15,
@@ -363,7 +390,7 @@ class _MusicPlayState extends State<MusicPlayer> {
                     ),
                   ),
                   Text(
-                    '3:20',
+                    '${_formatDuration(_totalDuration)}', // Update this line
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15,
@@ -398,12 +425,14 @@ class _MusicPlayState extends State<MusicPlayer> {
                 IconButton(
                   onPressed: () {
                     print("Button Pressed");
-                     print("Player State: ${_audioPlayer.state}");
-                    if (_audioPlayer.state == PlayerState.paused) {
-                      _audioPlayer.resume();
-                    } else {
+                    print("Player State: ${_audioPlayer.state}");
+                    if (_audioPlayer.state == PlayerState.paused ||
+                        _audioPlayer.state == PlayerState.stopped) {
                       play();
+                    } else {
+                      pause();
                     }
+                    setState(() {}); // Update the UI
                   },
                   icon: Container(
                     height: 60,
