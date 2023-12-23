@@ -60,7 +60,7 @@ class _SignUpState extends State<SignUp> {
           title: Center(
             child: Text(
               m,
-              style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0)),
+              style: const TextStyle(color:  Color.fromARGB(255, 0, 0, 0)),
             ),
           ),
         );
