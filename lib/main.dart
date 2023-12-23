@@ -21,7 +21,7 @@ class MusicApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.black,
       ),
-      home: AuthPage(),
+      home: const AuthPage(),
     );
   }
 }

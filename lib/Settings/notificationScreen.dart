@@ -33,7 +33,7 @@ class NotificationPage extends StatelessWidget {
               child: ListTile(
                 title: Text(
                   notifications[index],
-                  style: TextStyle(color: Colors.white), // Set text color to white
+                  style: const TextStyle(color: Colors.white), // Set text color to white
                 ),
                 // Add more details or actions for each notification
                 onTap: () {
