@@ -43,6 +43,7 @@ dependencies:
   google_sign_in: ^6.2.1
   firebase_analytics: ^10.7.4
   audioplayers: ^5.2.1
+  just_audio: ^0.9.36
 
 dev_dependencies:
   build_runner: ^2.4.7
@@ -85,7 +86,7 @@ flutter:
   - assets/image/playdemo.jpg
   - assets/image/WhatsApp Image 2023-12-20 at 13.23.42_b5147daf.jpg
   - assets/image/aswaj2.jpg
-  - assets/image/mike.jpg
+  - assets/image/mike.jpeg
   - assets/image/demo11.jpg
   
   #   - images/a_dot_ham.jpeg
