@@ -50,11 +50,40 @@ void pickFiles() async {
   }
 }
 
-class PlaylistScreen extends StatelessWidget {
-  Widget listBlock2() => Container(
-        width: 200,
-        height: 200,
-      );
+class PlaylistScreen extends StatefulWidget {
+  @override
+  State<PlaylistScreen> createState() => _PlaylistScreenState();
+}
+
+class _PlaylistScreenState extends State<PlaylistScreen> {
+  late List<Map<String, dynamic>> items = [];
+  bool isLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _incrementCounter();
+  }
+
+  _incrementCounter() async {
+    try {
+      List<Map<String, dynamic>> tempList = [];
+      QuerySnapshot data = await firestore.collection("Mp3s").get();
+
+      print("Number of documents: ${data.docs.length}");
+
+      data.docs.forEach((element) {
+        tempList.add(element.data() as Map<String, dynamic>);
+      });
+
+      setState(() {
+        items = tempList;
+        isLoaded = true;
+      });
+    } catch (e) {
+      print("Error fetching data: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -178,15 +207,19 @@ class PlaylistScreen extends StatelessWidget {
               color: const Color.fromARGB(255, 26, 25, 25),
               child: Padding(
                 padding: const EdgeInsets.only(left: 20),
-                child: ListView.separated(
-                  itemCount: 25,
-                  separatorBuilder: (context, index) => const SizedBox(
-                    width: 20,
-                  ),
-                  itemBuilder: (context, index) => Text("Hello $index",
-                      style: TextStyle(color: Colors.white, fontSize: 20)),
-                  scrollDirection: Axis.vertical,
-                ),
+                child: isLoaded
+                    ? ListView.separated(
+                        itemCount: items.length,
+                        separatorBuilder: (context, index) => const SizedBox(
+                          width: 20,
+                        ),
+                        itemBuilder: (context, index) => Text(
+                            items[index]["name"],
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 20)),
+                        scrollDirection: Axis.vertical,
+                      )
+                    : Text("Loading..."),
               ),
             ),
             const SizedBox(height: 20),
