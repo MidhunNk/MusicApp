@@ -170,7 +170,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                         onPressed: () async {
                           final String name = _nameController.text;
                           final String desc = _descController.text;
-                          if (name != null) {
+                          if (name != null&&desc!=null) {
                             await _items.add({
                               "name": name,
                               "description": desc,
