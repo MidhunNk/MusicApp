@@ -154,7 +154,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                "songUrl": '',
                             });
                             _nameController.text = ' ';
-                            _descController.text = '';
+                            _descController.text = ' ';
                             Navigator.of(context).pop(
                               
                             );
