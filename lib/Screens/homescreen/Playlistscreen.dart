@@ -1,56 +1,13 @@
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:music_app/Screens/homescreen/settingScreen.dart';
-import 'package:music_app/Services/uploader.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-Future<String> uploadFile(String filename, File file) async {
-  try {
-    final reference =
-        FirebaseStorage.instance.ref().child("Mp3s/$filename.mp3");
-    final uploadTask = reference.putFile(file);
-    await uploadTask.whenComplete(() => null);
-    final downloadUrl = await reference.getDownloadURL();
-    return downloadUrl;
-  } catch (e) {
-    print("Error uploading file: $e");
-    return ""; // Handle the error appropriately
-  }
-}
-
-void pickFiles() async {
-  try {
-    final FilePickerResult? pickedFiles = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['mp3'],
-      allowMultiple: true, // Enable multiple file selection
-    );
-
-    if (pickedFiles != null && pickedFiles.files.isNotEmpty) {
-      for (final PlatformFile pickedFile in pickedFiles.files) {
-        final file = File(pickedFile.path!);
-        final String fileName = pickedFile.name;
-        final downloadUrl = await uploadFile(fileName, file);
-        print("Download URL: $downloadUrl");
-
-        await firestore
-            .collection("Mp3s")
-            .add({"url": downloadUrl, "name": fileName});
-        print("MP3 added to Firestore");
-      }
-    } else {
-      print("No files selected");
-    }
-  } catch (e) {
-    print("Error picking/uploading files: $e");
-    // Handle the error appropriately
-  }
-}
 
 class PlaylistScreen extends StatefulWidget {
   @override
@@ -60,122 +17,183 @@ class PlaylistScreen extends StatefulWidget {
 class _PlaylistScreenState extends State<PlaylistScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
-  
 
-  final CollectionReference _items =
-      FirebaseFirestore.instance.collection("SongDetails");
+  final CollectionReference _items = FirebaseFirestore.instance.collection("SongDetails");
+
+  File? _selectedImage;
+  File? _selectedAudio;
 
   Future<void> _upload([DocumentSnapshot? documentSnapshot]) async {
     await showModalBottomSheet(
-     // backgroundColor: Colors.black,
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext ctx) {
-          return Padding(
-            padding: EdgeInsets.only(
-                top: 20,
-                right: 20,
-                left: 20,
-                bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Center(
-                  child: Text("Upload Music",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
-                ),
-                TextField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(
-                      labelText: "Song Name", hintText: "Name"),
-                ),
-                TextField(
-                  controller: _descController,
-                  decoration: const InputDecoration(
-                      labelText: "Description",
-                      hintText: "Artist Name, Album Name, etc."),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Center(
-                    child: ElevatedButton(
-                        onPressed: () async {
-                         
-                        },
-                        child: const Row(
-                          children: [
-                            Icon(Icons.image),
-                            SizedBox(
-                              width: 30,
-                            ),
-                            Text("Upload Thumbnail")
-                          ],
-                        ))),
-                const SizedBox(
-                  height: 10,
-                ),
-                Center(
-                  child: ElevatedButton(
-                      onPressed: () {},
-                      child: const Row(
-                        children: [
-                          Icon(Icons.music_note),
-                          SizedBox(
-                            width: 30,
-                          ),
-                          Text("Add Music")
-                        ],
-                      )),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Color.fromARGB(255, 58, 124, 232),
-                        ),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 58, 124, 232),
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext ctx) {
+        return Padding(
+          padding: EdgeInsets.only(
+              top: 20,
+              right: 20,
+              left: 20,
+              bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Center(
+                child: Text("Upload Music",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+              ),
+              TextField(
+                controller: _nameController,
+                decoration: const InputDecoration(
+                    labelText: "Song Name", hintText: "Name"),
+              ),
+              TextField(
+                controller: _descController,
+                decoration: const InputDecoration(
+                    labelText: "Description",
+                    hintText: "Artist Name, Album Name, etc."),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () async {
+                    // Pick image
+                    final imagePicker = ImagePicker();
+                    final pickedImage = await imagePicker.pickImage(source: ImageSource.gallery);
+
+                    if (pickedImage != null) {
+                      setState(() {
+                        _selectedImage = File(pickedImage.path!);
+                      });
+                    }
+                  },
+                  child: const Row(
+                    children: [
+                      Icon(Icons.image),
+                      SizedBox(
+                        width: 30,
                       ),
-                        onPressed: () async {
+                      Text("Upload Thumbnail"),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () async {
+                    // Pick audio file
+                    FilePickerResult? result = await FilePicker.platform.pickFiles(
+                      type: FileType.audio,
+                      allowMultiple: false,
+                    );
+
+                    if (result != null && result.files.isNotEmpty) {
+                      setState(() {
+                        _selectedAudio = File(result.files.first.path!);
+                      });
+                    }
+                  },
+                  child: const Row(
+                    children: [
+                      Icon(Icons.music_note),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text("Add Music"),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color.fromARGB(255, 58, 124, 232),
+                  ),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 58, 124, 232),
+                    ),
+                    onPressed: () async {
+                      // Upload image and audio to Firebase Storage
+                      if (_selectedImage != null && _selectedAudio != null) {
+                        try {
+                          // Upload image
+                          final imageRef = FirebaseStorage.instance.ref().child('images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+                          await imageRef.putFile(_selectedImage!);
+
+                          // Upload audio
+                          final audioRef = FirebaseStorage.instance.ref().child('audios/${DateTime.now().millisecondsSinceEpoch}.mp3');
+                          await audioRef.putFile(_selectedAudio!);
+
+                          // Get the download URLs
+                          final imageUrl = await imageRef.getDownloadURL();
+                          final audioUrl = await audioRef.getDownloadURL();
+
                           final String name = _nameController.text;
                           final String desc = _descController.text;
-                          if (name != null&&desc!=null) {
+
+                          if (name.isNotEmpty && desc.isNotEmpty) {
                             await _items.add({
                               "name": name,
                               "description": desc,
-                              "imageUrl": '',
-                               "songUrl": '',
+                              "imageUrl": imageUrl,
+                              "songUrl": audioUrl,
                             });
-                            _nameController.text = ' ';
-                            _descController.text = ' ';
-                            Navigator.of(context).pop(
-                              
+
+                            _nameController.text = '';
+                            _descController.text = '';
+                            _selectedImage = null;
+                            _selectedAudio = null;
+
+                            Navigator.of(context).pop();
+
+                            // Show snackbar
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Uploaded successfully!'),
+                                duration: Duration(seconds: 2),
+                              ),
                             );
                           }
-                        },
-                        child: const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.music_note,color: Colors.white,),
-                            SizedBox(
-                              width: 10,
+                        } catch (e) {
+                          print('Error uploading: $e');
+                          // Show snackbar for error
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Error uploading: $e'),
+                              duration: Duration(seconds: 2),
                             ),
-                            Text("Upload",style: TextStyle(color: Colors.white),)
-                          ],
-                        )),
+                          );
+                        }
+                      }
+                    },
+                    child: const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.music_note, color: Colors.white),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text("Upload", style: TextStyle(color: Colors.white)),
+                      ],
+                    ),
                   ),
-                )
-              ],
-            ),
-          );
-        });
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   late List<Map<String, dynamic>> items = [];
@@ -190,7 +208,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
   _incrementCounter() async {
     try {
       List<Map<String, dynamic>> tempList = [];
-      QuerySnapshot data = await firestore.collection("Mp3s").get();
+      QuerySnapshot data = await firestore.collection("SongDetails").get();
 
       print("Number of documents: ${data.docs.length}");
 
@@ -273,7 +291,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                         color: Color.fromARGB(255, 0, 255, 72),
                         fontSize: 15,
                         fontWeight: FontWeight.w200,
-                      ), 
+                      ),
                     ),
                   ),
                 ),
@@ -330,38 +348,35 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                   width: 400,
                   color: const Color.fromARGB(255, 26, 25, 25),
                   child: Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: isLoaded
-                          ? ListView.separated(
-                              itemCount: items.length,
-                              separatorBuilder: (context, index) =>
-                                  const SizedBox(
-                                width: 20,
+                    padding: const EdgeInsets.only(left: 20),
+                    child: isLoaded
+                        ? ListView.separated(
+                            itemCount: items.length,
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(
+                              width: 20,
+                            ),
+                            itemBuilder: (context, index) => ListTile(
+                              leading: const CircleAvatar(
+                                backgroundImage:
+                                    AssetImage("assets/image/demo.jpg"),
+                                radius: 30,
                               ),
-                              itemBuilder: (context, index) => ListTile(
-                                //tileColor: Color.fromARGB(255, 64, 68, 64),
-                                leading: const CircleAvatar(
-                                  //  backgroundImage: NetworkImage(items[index]["avatarUrl"]), // Use the URL of the avatar image
-                                  backgroundImage:
-                                      AssetImage("assets/image/demo.jpg"),
-                                  radius: 30,
-                                ),
-                                title: Text(
-                                  items[index]["name"],
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                                subtitle: const Text(
-                                  "des",
-                                  // items[index]["description"],
-                                  // style: TextStyle(fontSize: 14),
-                                ),
+                              title: Text(
+                                items[index]["name"],
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
                               ),
-                              scrollDirection: Axis.vertical,
-                            )
-                          : const Text("Loading...")),
+                              subtitle: const Text(
+                                "des",
+                              ),
+                            ),
+                            scrollDirection: Axis.vertical,
+                          )
+                        : const Text("Loading..."),
+                  ),
                 ),
                 const SizedBox(height: 20),
                 Padding(
@@ -394,7 +409,7 @@ void main() async {
 }
 
 class UploadFirebase extends StatefulWidget {
-  const UploadFirebase({super.key});
+  const UploadFirebase({Key? key}) : super(key: key);
 
   @override
   State<UploadFirebase> createState() => _UploadFirebaseState();
