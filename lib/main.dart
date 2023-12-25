@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:music_app/Screens/basicScreen/authenticate.dart';
+import 'package:music_app/Screens/homescreen/playscreen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -11,11 +12,18 @@ void main() async {
   runApp(const MusicApp());
 }
 
+
+
+
+
+
+
 class MusicApp extends StatelessWidget {
   const MusicApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+ 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

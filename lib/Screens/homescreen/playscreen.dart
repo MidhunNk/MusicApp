@@ -1,5 +1,5 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:music_app/Screens/homescreen/Playlistscreen.dart';
@@ -12,7 +12,7 @@ class MusicPlayer extends StatefulWidget {
 }
 
 class _MusicPlayState extends State<MusicPlayer> {
-  int index1=0;
+  int index1 = 1;
   String _formatDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
@@ -25,11 +25,8 @@ class _MusicPlayState extends State<MusicPlayer> {
   Duration _totalDuration = Duration();
   Duration _currentPosition = Duration();
 
-
-
   late List<Map<String, dynamic>> items = [];
   bool isLoaded = false;
-
 
   _incrementCounter() async {
     try {
@@ -51,29 +48,14 @@ class _MusicPlayState extends State<MusicPlayer> {
     }
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   @override
   void initState() {
     super.initState();
+    index1 = 0;
     _audioPlayer = AudioPlayer();
     _incrementCounter();
     _audioPlayer.onPlayerComplete.listen((event) {
-      playNext();
+     
     });
     _audioPlayer.onDurationChanged.listen((Duration duration) {
       setState(() {
@@ -84,7 +66,7 @@ class _MusicPlayState extends State<MusicPlayer> {
     _audioPlayer.onPositionChanged.listen((Duration duration) {
       setState(() {
         _currentPosition = duration;
-        _currentSliderValue = duration.inSeconds.toDouble();
+        //_currentSliderValue = duration.inSeconds.toDouble();
       });
     });
 
@@ -100,16 +82,25 @@ class _MusicPlayState extends State<MusicPlayer> {
     _audioPlayer.dispose();
     super.dispose();
   }
-
-  Future<void> play() async {
-    final url = items[index1]["songUrl"];
-    if (_audioPlayer.state == PlayerState.playing) {
-      await _audioPlayer.pause();
-      
-    } else {
-      await _audioPlayer.play(UrlSource(url));
+Future<void> play() async {
+    if (items.isNotEmpty && index1 >= 0 && index1 < items.length) {
+      final url = items[index1]["songUrl"];
+      if (_audioPlayer.state == PlayerState.playing) {
+        await _audioPlayer.pause();
+      } else {
+        await _audioPlayer.play(UrlSource(url));
+      }
     }
   }
+
+  Future<void> play1() async {
+    if (items.isNotEmpty && index1 >= 0 && index1 < items.length) {
+      final url = items[index1]["songUrl"];
+      _audioPlayer.play(UrlSource(url));
+    }
+  }
+
+
 
   void pause() {
     _audioPlayer.pause();
@@ -119,26 +110,27 @@ class _MusicPlayState extends State<MusicPlayer> {
     _audioPlayer.stop();
   }
 
-  void seekTo(double seconds) {
-    Duration newPosition = Duration(seconds: seconds.toInt());
-    _audioPlayer.seek(newPosition);
+ void seekTo(double seconds) {
+    if (items.isNotEmpty && index1 >= 0 && index1 < items.length) {
+      Duration newPosition = Duration(seconds: seconds.toInt());
+      _audioPlayer.seek(newPosition);
+    }
   }
-void playNext() {
-  if (index1 < items.length - 1) {
-    index1++;
-    play();
+
+  void playNext() {
+    if (index1 < items.length - 1) {
+      index1++;
+      play1();
+     print("player state is ${_audioPlayer.state}");
+    }
   }
-}
-void playPrevious() {
-  if (index1 > 0) {
-    index1--;
-    play();
+
+  void playPrevious() {
+    if (index1 > 0) {
+      index1--;
+      play1();
+    }
   }
-}
-
-
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -178,6 +170,7 @@ void playPrevious() {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 5),
@@ -208,7 +201,9 @@ void playPrevious() {
                 ),
               ),
             ),
-            SizedBox(height: 15,),
+            SizedBox(
+              height: 15,
+            ),
             Stack(
               children: [
                 Padding(
@@ -236,7 +231,7 @@ void playPrevious() {
                     width: size.width - 150,
                     height: size.width - 150,
                     decoration: BoxDecoration(
-                      image:  DecorationImage(
+                      image: DecorationImage(
                         image: NetworkImage(items[index1]["imageUrl"]),
                         fit: BoxFit.cover,
                       ),
@@ -250,32 +245,32 @@ void playPrevious() {
               height: 20,
             ),
             Column(
-             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-             children: [
-               Text(
-                 items[index1]["name"],
-                 style: const TextStyle(
-                   color: Colors.white,
-                   fontSize: 20,
-                   fontWeight: FontWeight.bold,
-                 ),
-               ),
-               Text(
-                 items[index1]["description"],
-                 style: TextStyle(
-                   color: Color.fromARGB(255, 97, 97, 97),
-                   fontSize: 15,
-                   fontWeight: FontWeight.bold,
-                 ),
-               ),
-             ],
-                            ),
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  items[index1]["name"],
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  items[index1]["description"],
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 97, 97, 97),
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(
               height: 20,
             ),
             Slider(
               activeColor: Color.fromRGBO(0, 255, 64, 1),
-              value: _currentSliderValue,
+              value: _currentPosition.inSeconds.toDouble(),
               min: 0,
               max: _totalDuration.inSeconds.toDouble(),
               onChanged: (value) {
@@ -291,7 +286,7 @@ void playPrevious() {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '${_formatDuration(Duration(seconds: _currentSliderValue.toInt()))}', // Update this line
+                    '${_formatDuration(_currentPosition)}', // Update this line
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15,

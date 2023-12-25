@@ -5,6 +5,9 @@ import 'package:music_app/Screens/homescreen/Playlistscreen.dart';
 import 'package:music_app/Screens/homescreen/playscreen.dart';
 import 'package:flutter/src/widgets/media_query.dart';
 
+
+
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -125,6 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 19, 19, 19),
       body: Column(
