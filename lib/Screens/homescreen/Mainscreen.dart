@@ -15,25 +15,48 @@ import 'package:music_app/models/musiclist2.dart';
 
 
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   // Remove const from the constructor
   const MainScreen({Key? key}) : super(key: key);
+
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
   Widget ListBlock() => Container(
         width: 200,
         height: 200,
         child: Image.asset("assets/image/demo2.jpg"),
       );
+
   Widget ListBlock1() => Container(
         width: 200,
         height: 200,
         child: Image.asset("assets/image/demo1.jpg"),
       );
+
   Widget ListBlock2() => Container(
         width: 200,
         height: 200,
         child: Image.asset("assets/image/demo3.jpg"),
       );
+List<Category> categories = [];
+        @override
+  void initState() {
+    super.initState();
+    loadCategories();
+  }
+
+  Future<void> loadCategories() async {
+    List<Category> loadedCategories = await CategoryOperation.getCategories();
+    setState(() {
+      categories = loadedCategories;
+    });
+  }
+
   Widget createCategory(Category category) {
+
     return Container(
       color: Color.fromARGB(255, 0, 30, 9),
       child: Row(
@@ -41,7 +64,7 @@ class MainScreen extends StatelessWidget {
           SizedBox(
               height: 80,
               width: 80,
-              child: Image.asset(
+              child: Image.network(
                 category.imageUrl,
                 fit: BoxFit.fill,
               )),
@@ -64,15 +87,15 @@ class MainScreen extends StatelessWidget {
     );
   }
 
-  List<Widget> createListCategory() {
-    List<Category> categoryList = CategoryOperation.getCategories();
-    List<Widget> categories = categoryList
-        .map((Category category) => createCategory(category))
-        .toList();
-    return categories;
-  }
+//  List<Widget> createListCategory() {
+//      List<Category> categoryList = await CategoryOperation.getCategories();
+//     List<Widget> categories = categoryList
+//         .map((Category category) => createCategory(category))
+//         .toList();
+//     return categories;
+//   }
 
-  Widget createMusicList1(MusicList musiclist) {
+  Widget createMusicList1(Category category) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,14 +107,14 @@ class MainScreen extends StatelessWidget {
           
             height: 180,
             width: 180,
-            child: Image.asset(
-              musiclist.imageUrl,
+            child: Image.network(
+              category.imageUrl,
               fit: BoxFit.cover,
             )),
         Padding(
           padding: const EdgeInsets.only(top: 10),
           child: Text(
-            musiclist.name,
+            category.name,
             style: GoogleFonts.lato(
                 color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
           ),
@@ -100,7 +123,7 @@ class MainScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(top: 5,bottom: 2),
             child: Text(
-              musiclist.Desc,
+              category.description,
               style: GoogleFonts.lato(
                   color: Colors.white,
                   fontSize: 10,
@@ -135,12 +158,12 @@ class MainScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 20),
             child: ListView.separated(
-              itemCount: 4,
+              itemCount: categories.length,
               separatorBuilder: (context, index) => const SizedBox(
                 width: 10,
               ),
               itemBuilder: (context, index) =>
-                  createMusicList1(musiclists[index]),
+                  createMusicList1(categories[index]),
               scrollDirection: Axis.horizontal,
             ),
           ),
@@ -148,21 +171,6 @@ class MainScreen extends StatelessWidget {
       ],
     );
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   Widget createMusicListz(MusicList2 musiclist) {
     return Column(
@@ -261,18 +269,6 @@ class MainScreen extends StatelessWidget {
       ],
     );
   }
-
-
-
-
-
-
-
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -417,7 +413,7 @@ class MainScreen extends StatelessWidget {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) =>
-                          createListCategory()[index]),
+                          createCategory(categories[index])),
                 ),
               ),
 
@@ -436,7 +432,7 @@ class MainScreen extends StatelessWidget {
               //       ),
               //     ),
               //   ),
-              createMusicList("KGF Made For You"),
+              createMusicList("Made For Leo"),
               SizedBox(
                 height: 20,
               ),

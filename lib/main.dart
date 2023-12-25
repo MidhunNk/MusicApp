@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:music_app/Screens/basicScreen/authenticate.dart';
-import 'package:music_app/Screens/homescreen/playscreen.dart';
 import 'firebase_options.dart';
 
 void main() async {
