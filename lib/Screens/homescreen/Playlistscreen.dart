@@ -151,7 +151,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                         color: Color.fromARGB(255, 0, 255, 72),
                         fontSize: 15,
                         fontWeight: FontWeight.w200,
-                      ),
+                      ), 
                     ),
                   ),
                 ),
