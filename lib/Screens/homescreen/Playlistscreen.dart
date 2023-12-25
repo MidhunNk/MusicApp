@@ -60,6 +60,7 @@ class PlaylistScreen extends StatefulWidget {
 class _PlaylistScreenState extends State<PlaylistScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
+  
 
   final CollectionReference _items =
       FirebaseFirestore.instance.collection("SongDetails");
@@ -102,32 +103,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                 Center(
                     child: ElevatedButton(
                         onPressed: () async {
-                          /*final file = await ImagePicker()
-                              .pickImage(source: ImageSource.gallery);
-                          if (file == null) return;
-                          String fileName =
-                              DateTime.now().microsecondsSinceEpoch.toString();
-                          final file = File(fileName.path!);
-
-                          //to storage ref
-                          Reference referenceRoot =
-                              FirebaseStorage.instance.ref();
-                          Reference referenceDireImage =
-                              referenceRoot.child('SongImages');
-
-                          //ref for im
-                          Reference referenceImageToUpload =
-                              referenceDireImage.child(fileName);
-
-                          //error handle
-                          
-                          try {
-                            await referenceImageToUpload
-                                .putFile(File(file.path));
-                          } catch (error) {
-                            print('some error');
-                          }
-                          uploadImg(fileName, file);*/
+                         
                         },
                         child: const Row(
                           children: [
@@ -174,8 +150,10 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                             await _items.add({
                               "name": name,
                               "description": desc,
+                              "imageUrl": '',
+                               "songUrl": '',
                             });
-                            _nameController.text = '';
+                            _nameController.text = ' ';
                             _descController.text = '';
                             Navigator.of(context).pop(
                               
