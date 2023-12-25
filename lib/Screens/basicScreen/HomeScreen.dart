@@ -23,94 +23,102 @@ class _HomeScreenState extends State<HomeScreen> {
 
   miniPlayer() {
     Size deviceSize = MediaQuery.of(context).size;
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 500),
-      color: Colors.green,
-      width: deviceSize.width,
-      height: 55,
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10),
-            child: Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  image: const DecorationImage(
-                      image: AssetImage('assets/image/playdemo.jpg'),
-                      fit: BoxFit.cover),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: const Offset(0, 3),
-                    ),
-                  ]),
-            ),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          const Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Every Day",
-                style: TextStyle(
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>MusicPlayer()));
+      },
+      child: AnimatedContainer(
+      
+        duration: const Duration(milliseconds: 500),
+        color: Colors.green,
+        width: deviceSize.width,
+        height: 55,
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              child: Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    image: const DecorationImage(
+                        image: AssetImage('assets/image/playdemo.jpg'),
+                        fit: BoxFit.cover),
                     color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
+                      ),
+                    ]),
               ),
-              Text(
-                "Ariana Grande",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 11,
-                    fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
-          Padding(
-              padding: const EdgeInsets.only(left: 25, right: 10),
-              child: Row(children: [
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.skip_previous,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Every Day",
+                  style: TextStyle(
                       color: Colors.white,
-                      size: 30,
-                    )),
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.play_arrow,
-                      color: Color.fromARGB(255, 9, 255, 0),
-                      size: 30,
-                    )),
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.skip_next,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "Ariana Grande",
+                  style: TextStyle(
                       color: Colors.white,
-                      size: 30,
-                    )),
-
-                    
-                       IconButton(
-                       highlightColor: Colors.red,
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.favorite_border,
-
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+            Padding(
+                padding: const EdgeInsets.only(left: 25, right: 10),
+                child: Row(children: [
+                  IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.skip_previous,
+                        color: Colors.white,
+                        size: 30,
+                      )),
+                  IconButton(
+                      onPressed: () {
+                         
+                      },
+                      icon: const Icon(
+                        Icons.play_arrow,
+                        color: Color.fromARGB(255, 9, 255, 0),
+                        size: 30,
+                      )),
+                  IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.skip_next,
+                        color: Colors.white,
+                        size: 30,
+                      )),
+      
                       
-                      color: Colors.white,
-                      size: 25,
-                    )),
-              ]))
-        ],
+                         IconButton(
+                         highlightColor: Colors.red,
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.favorite_border,
+      
+                        
+                        color: Colors.white,
+                        size: 25,
+                      )),
+                ]))
+          ],
+        ),
       ),
     );
   }

@@ -201,30 +201,44 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                         fontWeight: FontWeight.w500)),
               ],
             ),
-            Container(
-              height: 400,
-              width: 400,
-              color: const Color.fromARGB(255, 26, 25, 25),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: isLoaded
-                    ? ListView.separated(
-                        itemCount: items.length,
-                        separatorBuilder: (context, index) => const SizedBox(
-                          width: 20,
-                        ),
-                        itemBuilder: (context, index) => Text(
-                            items[index]["name"],
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 20)),
-                        scrollDirection: Axis.vertical,
-                      )
-                    : Text("Loading..."),
+            Stack(
+              children: [Container(
+                height: 500,
+                width: 400,
+                color: const Color.fromARGB(255, 26, 25, 25),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: isLoaded
+                      ?ListView.separated(
+                itemCount: items.length,
+                separatorBuilder: (context, index) => const SizedBox(
+                  width: 20,
+                ),
+                itemBuilder: (context, index) => ListTile(
+                  //tileColor: Color.fromARGB(255, 64, 68, 64),
+                  leading: const CircleAvatar(
+                  //  backgroundImage: NetworkImage(items[index]["avatarUrl"]), // Use the URL of the avatar image
+                  backgroundImage: AssetImage("assets/image/demo.jpg"),radius: 30,
+                  ),
+                  title: Text(
+                    items[index]["name"],
+                    
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.white),
+                  ),
+                  subtitle:const Text("des",
+                   // items[index]["description"],
+                   // style: TextStyle(fontSize: 14),
+                  ),
+                ),
+                scrollDirection: Axis.vertical,
+              ) :const Text("Loading...")
+              
+                ),
               ),
-            ),
+          
             const SizedBox(height: 20),
             const Padding(
-              padding: EdgeInsets.only(top: 1, right: 12),
+              padding: EdgeInsets.only(top: 420, left: 320),
               child: FloatingActionButton(
                 onPressed: pickFiles,
                 child: Icon(Icons.queue_music_sharp,
@@ -234,7 +248,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
               ),
             ),
           ],
-        ),
+       ) ],),
       ),
     );
   }
