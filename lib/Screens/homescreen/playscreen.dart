@@ -207,13 +207,14 @@ void playPrevious() {
                 ),
               ),
             ),
+            SizedBox(height: 15,),
             Stack(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 20, left: 40, right: 20),
                   child: Container(
-                    width: size.width - 80,
-                    height: size.width - 80,
+                    width: size.width - 150,
+                    height: size.width - 150,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
@@ -231,11 +232,11 @@ void playPrevious() {
                 Padding(
                   padding: const EdgeInsets.only(top: 20, left: 40, right: 20),
                   child: Container(
-                    width: size.width - 80,
-                    height: size.width - 80,
+                    width: size.width - 150,
+                    height: size.width - 150,
                     decoration: BoxDecoration(
-                      image: const DecorationImage(
-                        image: AssetImage('assets/image/demo11.jpg'),
+                      image:  DecorationImage(
+                        image: NetworkImage(items[index1]["imageUrl"]),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: BorderRadius.circular(20),
@@ -259,19 +260,19 @@ void playPrevious() {
                 SizedBox(
                   width: 70,
                 ),
-                const Column(
+                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      'Ordinary Person',
-                      style: TextStyle(
+                      items[index1]["name"],
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      ' Currently Playing  Ariana',
+                      items[index1]["description"],
                       style: TextStyle(
                         color: Color.fromARGB(255, 97, 97, 97),
                         fontSize: 15,
