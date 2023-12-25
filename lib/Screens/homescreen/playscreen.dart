@@ -12,6 +12,7 @@ class MusicPlayer extends StatefulWidget {
 }
 
 class _MusicPlayState extends State<MusicPlayer> {
+  int index1=0;
   String _formatDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
@@ -99,7 +100,7 @@ class _MusicPlayState extends State<MusicPlayer> {
     _audioPlayer.dispose();
     super.dispose();
   }
-int index1=0;
+
   Future<void> play() async {
     final url = items[index1]["songUrl"];
     if (_audioPlayer.state == PlayerState.playing) {
@@ -216,7 +217,7 @@ void playPrevious() {
                     width: size.width - 150,
                     height: size.width - 150,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Color.fromARGB(255, 25, 25, 25),
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: const [
                         BoxShadow(
@@ -248,41 +249,27 @@ void playPrevious() {
             const SizedBox(
               height: 20,
             ),
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.folder_open_outlined,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(
-                  width: 70,
-                ),
-                 Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      items[index1]["name"],
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      items[index1]["description"],
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 97, 97, 97),
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+            Column(
+             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+             children: [
+               Text(
+                 items[index1]["name"],
+                 style: const TextStyle(
+                   color: Colors.white,
+                   fontSize: 20,
+                   fontWeight: FontWeight.bold,
+                 ),
+               ),
+               Text(
+                 items[index1]["description"],
+                 style: TextStyle(
+                   color: Color.fromARGB(255, 97, 97, 97),
+                   fontSize: 15,
+                   fontWeight: FontWeight.bold,
+                 ),
+               ),
+             ],
+                            ),
             const SizedBox(
               height: 20,
             ),
