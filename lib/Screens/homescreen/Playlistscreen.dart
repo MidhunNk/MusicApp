@@ -158,7 +158,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
 
                             // Show snackbar
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
+                           const   SnackBar(
                                 content: Text('Uploaded successfully!'),
                                 duration: Duration(seconds: 2),
                               ),
@@ -170,7 +170,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text('Error uploading: $e'),
-                              duration: Duration(seconds: 2),
+                              duration:const Duration(seconds: 2),
                             ),
                           );
                         }
@@ -348,18 +348,18 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                   width: 400,
                   color: const Color.fromARGB(255, 26, 25, 25),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 20),
+                    padding: const EdgeInsets.only(left: 10,top: 10),
                     child: isLoaded
                         ? ListView.separated(
                             itemCount: items.length,
                             separatorBuilder: (context, index) =>
-                                const SizedBox(
-                              width: 20,
+                                const Divider(
+                              color: Color.fromARGB(255, 0, 0, 0),
                             ),
                             itemBuilder: (context, index) => ListTile(
-                              leading: const CircleAvatar(
+                              leading:  CircleAvatar(
                                 backgroundImage:
-                                    AssetImage("assets/image/demo.jpg"),
+                                    NetworkImage(items[index]["imageUrl"]),
                                 radius: 30,
                               ),
                               title: Text(
@@ -369,13 +369,13 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white),
                               ),
-                              subtitle: const Text(
-                                "des",
+                              subtitle:  Text(items[index]["description"]
+                                ,
                               ),
                             ),
                             scrollDirection: Axis.vertical,
                           )
-                        : const Text("Loading..."),
+                        : const Center(child:  Text("Loading...", style: TextStyle(color: Colors.white))),
                   ),
                 ),
                 const SizedBox(height: 20),

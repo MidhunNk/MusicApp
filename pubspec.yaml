@@ -45,6 +45,9 @@ dependencies:
   audioplayers: ^5.2.1
   just_audio: ^0.9.36
   image_picker: ^1.0.5
+  progress_dialog2: ^1.0.0
+  loading_indicator: ^3.1.1
+  percent_indicator: ^4.2.3
 
 dev_dependencies:
   build_runner: ^2.4.7
