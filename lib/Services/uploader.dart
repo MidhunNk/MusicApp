@@ -191,7 +191,7 @@ class _uploadallState extends State<uploadall> {
   final CollectionReference _items =
       FirebaseFirestore.instance.collection("SongDetails");
 
-  Future<void> _uload([DocumentSnapshot? documentSnapshot]) async {
+  Future<void> _upload([DocumentSnapshot? documentSnapshot]) async {
     await showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -331,7 +331,7 @@ class _uploadallState extends State<uploadall> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _uload();
+          _upload();
         },
         child: const Icon(Icons.add),
       ),
