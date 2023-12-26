@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 import 'package:music_app/Screens/basicScreen/ProfileScreen.dart';
 import 'package:music_app/Services/categoryoperation.dart';
@@ -20,6 +21,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  bool isLoaded = false;
   List<List1> categorieslist = [];
   List<Category> categories = [];
   List<Grindclass> grindclass = [];
@@ -29,8 +31,11 @@ class _MainScreenState extends State<MainScreen> {
     loadCategories();
     loadGrind();
     loadlist1();
+    loadData();
     
   }
+
+
 
   Widget playlistofLeo(Category category) {
     return Column(
@@ -70,6 +75,12 @@ class _MainScreenState extends State<MainScreen> {
       ],
     );
   }
+   
+   
+
+
+
+
 
   Future<void> loadCategories() async {
     List<Category> loadedCategories = await CategoryOperation.getCategories();
@@ -272,8 +283,27 @@ Future<void> loadGrind() async {
     );
   }
 
+
+   Future<void> loadData() async {
+    await loadCategories();
+    await loadGrind();
+    await loadlist1();
+
+    // Set 'isLoaded' to true only when all data is loaded
+     setState(() {
+      isLoaded = true;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    if (!isLoaded) {
+      return const Center(
+        child:  LoadingIndicator(indicatorType: Indicator.triangleSkewSpin) // or any loading indicator
+      );
+    }
+    
     return Scaffold(
         backgroundColor: Colors.black,
         appBar: PreferredSize(
