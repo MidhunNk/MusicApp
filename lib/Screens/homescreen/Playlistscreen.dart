@@ -17,11 +17,15 @@ class PlaylistScreen extends StatefulWidget {
 class _PlaylistScreenState extends State<PlaylistScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
+   final TextEditingController _artistnameController = TextEditingController();
+    final TextEditingController _artistdescController = TextEditingController();
+    
 
   final CollectionReference _items = FirebaseFirestore.instance.collection("SongDetails");
 
   File? _selectedImage;
   File? _selectedAudio;
+  File? _selectedartistImage;
 
   Future<void> _upload([DocumentSnapshot? documentSnapshot]) async {
     await showModalBottomSheet(
@@ -51,7 +55,19 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                 controller: _descController,
                 decoration: const InputDecoration(
                     labelText: "Description",
-                    hintText: "Artist Name, Album Name, etc."),
+                    hintText: "Flim Name, Album Name, etc."),
+              ),
+              TextField(
+                controller: _artistnameController,
+                decoration: const InputDecoration(
+                    labelText: "Artist Name",
+                    hintText: "Artist Name, Singer Name, etc."),
+              ),
+                 TextField(
+                controller: _artistdescController,
+                decoration: const InputDecoration(
+                    labelText: "Artist Description",
+                    hintText: "Artist About"),
               ),
               const SizedBox(
                 height: 10,
@@ -83,6 +99,30 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
               const SizedBox(
                 height: 10,
               ),
+                Center(
+                child: ElevatedButton(
+                  onPressed: () async {
+                    // Pick image
+                    final artistimagePicker = ImagePicker();
+                    final pickedImage1 = await artistimagePicker.pickImage(source: ImageSource.gallery);
+
+                    if (pickedImage1 != null) {
+                      setState(() {
+                        _selectedartistImage = File(pickedImage1.path!);
+                      });
+                    }
+                  },
+                  child: const Row(
+                    children: [
+                      Icon(Icons.image),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text("Artist Image"),
+                    ],
+                  ),
+                ),
+              ),
               Center(
                 child: ElevatedButton(
                   onPressed: () async {
@@ -98,6 +138,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                       });
                     }
                   },
+                  
                   child: const Row(
                     children: [
                       Icon(Icons.music_note),
@@ -130,6 +171,9 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                           final imageRef = FirebaseStorage.instance.ref().child('images/${DateTime.now().millisecondsSinceEpoch}.jpg');
                           await imageRef.putFile(_selectedImage!);
 
+                          final artistimageRef = FirebaseStorage.instance.ref().child('Artistimages/${DateTime.now().millisecondsSinceEpoch}.jpg');
+                          await artistimageRef.putFile(_selectedartistImage!);
+
                           // Upload audio
                           final audioRef = FirebaseStorage.instance.ref().child('audios/${DateTime.now().millisecondsSinceEpoch}.mp3');
                           await audioRef.putFile(_selectedAudio!);
@@ -137,9 +181,12 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                           // Get the download URLs
                           final imageUrl = await imageRef.getDownloadURL();
                           final audioUrl = await audioRef.getDownloadURL();
+                          final artistimageUrl = await artistimageRef.getDownloadURL();
 
                           final String name = _nameController.text;
                           final String desc = _descController.text;
+                          final String artistname = _artistnameController.text;
+                          final String artistdesc = _artistdescController.text;
 
                           if (name.isNotEmpty && desc.isNotEmpty) {
                             await _items.add({
@@ -147,6 +194,10 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                               "description": desc,
                               "imageUrl": imageUrl,
                               "songUrl": audioUrl,
+                              "Artist": artistname,
+                              "Artistdesc": artistdesc,
+                              "ArtistimageUrl": artistimageUrl,
+
                             });
 
                             _nameController.text = '';
@@ -225,6 +276,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -248,6 +300,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
               ),
             ),
             actions: [
+
               GestureDetector(
                 onTap: () {
                   // Navigating to the ProfileScreen
