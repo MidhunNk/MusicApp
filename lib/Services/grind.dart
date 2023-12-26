@@ -6,11 +6,11 @@ class Grindoperation{
 
  static List<Grindclass> getGrind(){
     return <Grindclass> [
-      Grindclass('Top Songs', 'assets/image/demo1.jpg'),
+      Grindclass('Best Songs', 'assets/image/bestsongs.jpg'),
       Grindclass('Liked Songs', 'assets/image/demo2.jpg'),
       Grindclass('Trending', 'assets/image/demo3.jpg'),
       Grindclass('Top Hits', 'assets/image/demo4.jpg'),
-      Grindclass('Leo Das', 'assets/image/demo5.jpg'),
+      Grindclass('Playlist', 'assets/image/demo7.jpeg'),
       Grindclass('LCU Songs', 'assets/image/demo.jpg'),
       
     ];

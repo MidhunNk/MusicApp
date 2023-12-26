@@ -27,8 +27,9 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     loadCategories();
-    loadlist1();
     loadGrind();
+    loadlist1();
+    
   }
 
   Widget playlistofLeo(Category category) {
