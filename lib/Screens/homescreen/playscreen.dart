@@ -55,6 +55,7 @@ class _MusicPlayState extends State<MusicPlayer> {
     _audioPlayer = AudioPlayer();
     _incrementCounter();
     _audioPlayer.onPlayerComplete.listen((event) {
+      playNext();
      
     });
     _audioPlayer.onDurationChanged.listen((Duration duration) {
@@ -408,7 +409,7 @@ Future<void> play() async {
                   padding: const EdgeInsets.only(top: 20, left: 30, right: 20),
                   child: Container(
                     width: size.width - 50,
-                    height: size.width - -220,
+                    height: size.width - -250,
                     decoration: BoxDecoration(
                       color: Color.fromARGB(255, 24, 24, 24),
                       borderRadius: BorderRadius.circular(20),
@@ -425,12 +426,24 @@ Future<void> play() async {
                 ),
                 Column(
                   children: [
-                    Padding(
+                //  const   Padding(
+                //       padding:
+                //            EdgeInsets.only(top: 40, left: 1, right: 100),
+                //       child: Text(
+                //         'About the Artist',
+                //         style: TextStyle(
+                //           color: Colors.white,
+                //           fontSize: 20,
+                //           fontWeight: FontWeight.bold,
+                //         ),
+                //       ),
+                //     ),
+                     Padding(
                       padding:
-                          const EdgeInsets.only(top: 40, left: 1, right: 100),
+                           EdgeInsets.only(top: 40, left: 1, right: 100),
                       child: Text(
-                        'About the Artist',
-                        style: TextStyle(
+                        items[index1]["Artist"],
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -444,8 +457,8 @@ Future<void> play() async {
                         width: size.width - 80,
                         height: size.width - 80,
                         decoration: BoxDecoration(
-                          image: const DecorationImage(
-                            image: AssetImage('assets/image/demo2.jpg'),
+                          image:  DecorationImage(
+                            image: Image.network(items[index1]["ArtistimageUrl"]).image,
                             fit: BoxFit.cover,
                           ),
                           borderRadius: BorderRadius.circular(20),
@@ -458,9 +471,8 @@ Future<void> play() async {
                       child: Padding(
                         padding:
                             const EdgeInsets.only(top: 20, left: 30, right: 20),
-                        child: Text(
-                          "Ariana Grande is an accomplished American singer, songwriter, and actress born on June 26, 1993, in Boca Raton, Florida. Rising to fame through her role as Cat Valentine on Nickelodeon's Victorious and Sam & Cat, Ariana made a successful transition to a music career.",
-                          style: TextStyle(
+                        child: Text(items[index1]["Artistdesc"]
+,                          style: TextStyle(
                             color: Color.fromARGB(255, 198, 197, 197),
                             fontSize: 16,
                             fontStyle: FontStyle.italic,
