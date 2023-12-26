@@ -7,6 +7,7 @@ import 'package:music_app/Screens/basicScreen/ProfileScreen.dart';
 import 'package:music_app/Settings/AudioScreen.dart';
 import 'package:music_app/Settings/dataUsageScreen.dart';
 import 'package:music_app/Settings/notificationScreen.dart';
+import 'package:music_app/Settings/pro.dart';
 
 class PersonScreen extends StatelessWidget {
   const PersonScreen({super.key});
@@ -68,6 +69,10 @@ class PersonScreen extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
             onTap: () {
+               Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>const MyHomePage(title: 'Rest')),
+              );
               // Handle theme and appearance settings
             },
           ),

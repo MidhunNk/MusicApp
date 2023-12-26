@@ -1,8 +1,18 @@
+import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:music_app/Screens/homescreen/Playlistscreen.dart';
+import 'package:music_app/Settings/adddata.dart';
+import 'package:music_app/Settings/utils.dart';
 
-void main() {
-  runApp(MyApp());
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -20,6 +30,48 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  late List<Map<String, dynamic>> items = [];
+
+  bool isLoaded = false;
+
+  
+  _incrementCounter() async {
+    try {
+      List<Map<String, dynamic>> tempList = [];
+      QuerySnapshot data = await firestore.collection("userProfile").get();
+
+      print("Number of documents: ${data.docs.length}");
+
+      data.docs.forEach((element) {
+        tempList.add(element.data() as Map<String, dynamic>);
+      });
+
+      setState(() {
+        items = tempList;
+        isLoaded = true;
+      });
+    } catch (e) {
+      print("Error fetching data: $e");
+    }
+  }
+
+  Uint8List? _image;
+
+  void selectImage() async {
+    Uint8List img = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = img;
+    });
+  }
+
+  void saveProfile() async{
+
+      String name = nameController.text;
+      String bio = bioController.text;
+
+      String resp = await StoreData().saveData(name: name, bio: bio, file: _image!);
+  }
+
   late TextEditingController nameController;
   late TextEditingController bioController;
   bool isEditing = false;
@@ -27,6 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
+    _incrementCounter();
     nameController = TextEditingController(text: 'Aswaj');
     bioController = TextEditingController(text: 'its suiii time....');
   }
@@ -65,15 +118,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Center(
+             Center(
               child: Column(
                 children: [
-                  Icon(
-                    Icons.person,
-                    size: 80,
-                    color: Colors.white,
-                  ),
-                  Text(
+                   Stack(
+                children: [
+                  _image != null
+                      ? CircleAvatar(
+                          radius: 64,
+                          backgroundImage: MemoryImage(_image!),
+                        )
+                      :  CircleAvatar(
+                          radius: 64,
+                          backgroundImage: NetworkImage(items[0]["imageLink"]
+                              ),
+                        ),
+                  Positioned(
+                    bottom: -10,
+                    left: 80,
+                    child: IconButton(
+                      onPressed: selectImage,
+                      icon: const Icon(Icons.add_a_photo),
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(
+              height: 20,
+            ),
+                  
+                  const Text(
                     'aswajc@mail.com',
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white),
