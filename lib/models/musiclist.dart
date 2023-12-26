@@ -1,8 +1,7 @@
-class MusicList{
- String name;
-  String imageUrl;
-  String Desc;
- 
-  MusicList( this.name, this.imageUrl,this.Desc);
-  
+class List1 {
+  final String name;
+  final String imageUrl;
+  final String description;
+
+  List1( this.name, this.imageUrl, this.description);
 }

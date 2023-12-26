@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 import 'package:music_app/Screens/basicScreen/ProfileScreen.dart';
 import 'package:music_app/Services/categoryoperation.dart';
-import 'package:music_app/Services/musiclistoperation.dart';
+import 'package:music_app/Services/musiclistOperation.dart';
 
-import 'package:music_app/Services/musiclistoperation2.dart';
 import 'package:music_app/Settings/notificationScreen.dart';
 import 'package:music_app/models/category.dart';
 import 'package:music_app/models/musiclist.dart';
-
-import 'package:music_app/models/musiclist2.dart';
-
-
 
 class MainScreen extends StatefulWidget {
   // Remove const from the constructor
@@ -24,28 +18,52 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  Widget ListBlock() => Container(
-        width: 200,
-        height: 200,
-        child: Image.asset("assets/image/demo2.jpg"),
-      );
-
-  Widget ListBlock1() => Container(
-        width: 200,
-        height: 200,
-        child: Image.asset("assets/image/demo1.jpg"),
-      );
-
-  Widget ListBlock2() => Container(
-        width: 200,
-        height: 200,
-        child: Image.asset("assets/image/demo3.jpg"),
-      );
-List<Category> categories = [];
-        @override
+  List<List1> categorieslist = [];
+  List<Category> categories = [];
+  @override
   void initState() {
     super.initState();
     loadCategories();
+    loadlist1();
+  }
+
+  Widget playlistofLeo(Category category) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 8,
+        ),
+        Container(
+            height: 180,
+            width: 180,
+            child: Image.network(
+              category.imageUrl,
+              fit: BoxFit.cover,
+            )),
+        Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Text(
+            category.name,
+            style: GoogleFonts.lato(
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
+          ),
+        ),
+        SizedBox(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 5, bottom: 2),
+            child: Text(
+              category.description,
+              style: GoogleFonts.lato(
+                  color: Colors.white,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w600),
+            ),
+          ),
+        )
+      ],
+    );
   }
 
   Future<void> loadCategories() async {
@@ -56,7 +74,6 @@ List<Category> categories = [];
   }
 
   Widget createCategory(Category category) {
-
     return Container(
       color: Color.fromARGB(255, 0, 30, 9),
       child: Row(
@@ -87,43 +104,34 @@ List<Category> categories = [];
     );
   }
 
-//  List<Widget> createListCategory() {
-//      List<Category> categoryList = await CategoryOperation.getCategories();
-//     List<Widget> categories = categoryList
-//         .map((Category category) => createCategory(category))
-//         .toList();
-//     return categories;
-//   }
-
-  Widget createMusicList1(Category category) {
+  Widget createMusicList1(List1 categorieslist) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
         Container(
-          
             height: 180,
             width: 180,
             child: Image.network(
-              category.imageUrl,
+              categorieslist.imageUrl,
               fit: BoxFit.cover,
             )),
         Padding(
           padding: const EdgeInsets.only(top: 10),
           child: Text(
-            category.name,
+            categorieslist.name,
             style: GoogleFonts.lato(
                 color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
           ),
         ),
         SizedBox(
           child: Padding(
-            padding: const EdgeInsets.only(top: 5,bottom: 2),
+            padding: const EdgeInsets.only(top: 5, bottom: 2),
             child: Text(
-              category.description,
+              categorieslist.description,
               style: GoogleFonts.lato(
                   color: Colors.white,
                   fontSize: 10,
@@ -135,8 +143,50 @@ List<Category> categories = [];
     );
   }
 
+  Future<void> loadlist1() async {
+    List<List1> loadedCategories1 = await List1Operation.getList1();
+    setState(() {
+      categorieslist = loadedCategories1;
+    });
+  }
+
   Widget createMusicList(String label) {
-    List<MusicList> musiclists = MusicOperation.getMusic();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 20),
+          child: Text(
+            label,
+            textAlign: TextAlign.left,
+            style: const TextStyle(
+              color: Color.fromARGB(255, 255, 255, 255),
+              fontSize: 22,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        Container(
+          color: Color.fromARGB(213, 0, 32, 9),
+          height: 250,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: ListView.separated(
+              itemCount: categorieslist.length,
+              separatorBuilder: (context, index) => const SizedBox(
+                width: 10,
+              ),
+              itemBuilder: (context, index) =>
+                  createMusicList1(categorieslist[index]),
+              scrollDirection: Axis.horizontal,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget createMusicListkgf(String label) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -163,105 +213,7 @@ List<Category> categories = [];
                 width: 10,
               ),
               itemBuilder: (context, index) =>
-                  createMusicList1(categories[index]),
-              scrollDirection: Axis.horizontal,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget createMusicListz(MusicList2 musiclist) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 8,
-        ),
-        Container(
-          
-            height: 180,
-            width: 180,
-            child: Image.asset(
-              musiclist.imageUrl,
-              fit: BoxFit.cover,
-            )),
-        Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: Text(
-            musiclist.name,
-            style: GoogleFonts.lato(
-                color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
-          ),
-        ),
-        SizedBox(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 5,bottom: 2),
-            child: Text(
-              musiclist.Desc,
-              style: GoogleFonts.lato(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontWeight: FontWeight.w600),
-            ),
-          ),
-        )
-      ],
-    );
-  }
-
-  Widget createMusicListzz(String label) {
-    List<MusicList2> musiclists = MusicOperation2.getMusic();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 20),
-          child: Text(
-            label,
-            textAlign: TextAlign.left,
-            style: const TextStyle(
-              color: Color.fromARGB(255, 255, 255, 255),
-              fontSize: 22,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        Container(
-          color: Color.fromARGB(213, 0, 32, 9),
-          height: 250,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: ListView.separated(
-              itemCount: 4,
-              separatorBuilder: (context, index) => const SizedBox(
-                width: 10,
-              ),
-              itemBuilder: (context, index) =>
-                  createMusicListz(musiclists[index]),
+                  createMusicList1(categorieslist[index]),
               scrollDirection: Axis.horizontal,
             ),
           ),
@@ -293,52 +245,53 @@ List<Category> categories = [];
                 ),
               ),
               actions: [
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => NotificationPage()),
-                );
-              },
-              child:const Padding(
-                padding: EdgeInsets.only(right: 20),
-                child: Icon(
-                  Icons.notifications,
-                  color: Color.fromARGB(255, 115, 255, 0),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NotificationPage()),
+                    );
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(right: 20),
+                    child: Icon(
+                      Icons.notifications,
+                      color: Color.fromARGB(255, 115, 255, 0),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfileScreen()),
-                );
-              },
-              child:const Padding(
-                padding: EdgeInsets.only(right: 20),
-                child: Icon(
-                  Icons.history,
-                  color: Color.fromARGB(255, 64, 70, 59),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ProfileScreen()),
+                    );
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(right: 20),
+                    child: Icon(
+                      Icons.history,
+                      color: Color.fromARGB(255, 64, 70, 59),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfileScreen()),
-                );
-              },
-              child:const Padding(
-                padding: EdgeInsets.only(right: 15),
-                child: Icon(
-                  Icons.person,
-                  color: Color.fromARGB(255, 251, 251, 251),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ProfileScreen()),
+                    );
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(right: 15),
+                    child: Icon(
+                      Icons.person,
+                      color: Color.fromARGB(255, 251, 251, 251),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ],
+              ],
             ),
           ),
         ),
@@ -416,45 +369,10 @@ List<Category> categories = [];
                           createCategory(categories[index])),
                 ),
               ),
-
               const SizedBox(
                 height: 15,
               ),
-              //  const Padding(
-              //     padding:  EdgeInsets.only(left: 20),
-              //     child: Text(
-              //       "KGF Made For You",
-              //       textAlign: TextAlign.left,
-              //       style: TextStyle(
-              //         color: Color.fromARGB(255, 255, 255, 255),
-              //         fontSize: 20,
-              //         fontWeight: FontWeight.w500,
-              //       ),
-              //     ),
-              //   ),
-              createMusicList("Made For Leo"),
-              SizedBox(
-                height: 20,
-              ),
-              createMusicListzz("Playlist For You"),
-
-              // Container(
-              //   height: 400,
-              //   child: Padding(
-              //     padding: const EdgeInsets.only(left: 20),
-              //     child: ListView.separated(
-              //       itemCount: 4,
-              //       separatorBuilder: (context, index) => const SizedBox(
-              //         width: 10,
-              //       ),
-              //       itemBuilder: (context, index) => createMusicList("Hello GOOyis"),
-
-              //       scrollDirection: Axis.horizontal,
-
-              //     ),
-              //   ),
-
-              // ),
+              createMusicList("Playlist From KGF"),
               const SizedBox(
                 height: 20,
               ),
@@ -470,48 +388,22 @@ List<Category> categories = [];
                   ),
                 ),
               ),
-
               Container(
-                height: 180,
+                color: Color.fromARGB(213, 0, 32, 9),
+                height: 250,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20),
                   child: ListView.separated(
-                    itemCount: 6,
+                    itemCount: categories.length,
                     separatorBuilder: (context, index) => const SizedBox(
                       width: 10,
                     ),
-                    itemBuilder: (context, index) => ListBlock1(),
+                    itemBuilder: (context, index) =>
+                        playlistofLeo(categories[index]),
                     scrollDirection: Axis.horizontal,
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: Text(
-                  "Recently Played Albums",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-
-              Container(
-                height: 180,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: ListView.separated(
-                    itemCount: 6,
-                    separatorBuilder: (context, index) => const SizedBox(
-                      width: 10,
-                    ),
-                    itemBuilder: (context, index) => ListBlock(),
-                    scrollDirection: Axis.horizontal,
-                  ),
-                ),
-              )
             ],
           ),
         ));
