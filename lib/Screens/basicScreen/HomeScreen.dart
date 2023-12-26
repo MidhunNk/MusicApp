@@ -255,7 +255,19 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     if (!isLoaded) {
-      return const LoadingIndicator(indicatorType: Indicator.lineSpinFadeLoader);
+      return Scaffold(
+        backgroundColor: const Color.fromARGB(255, 19, 19, 19),
+        body: Center(
+          child: SizedBox(
+            width: 50,
+            height: 50,
+            child: LoadingIndicator(
+              indicatorType: Indicator.ballClipRotateMultiple,
+              colors: [Colors.white],
+            ),
+          ),
+        ),
+      );
     }
 
     return Scaffold(
