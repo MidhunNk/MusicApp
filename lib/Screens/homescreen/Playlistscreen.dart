@@ -18,7 +18,8 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
 
-  final CollectionReference _items = FirebaseFirestore.instance.collection("SongDetails");
+  final CollectionReference _items =
+      FirebaseFirestore.instance.collection("SongDetails");
 
   File? _selectedImage;
   File? _selectedAudio;
@@ -40,7 +41,8 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
             children: [
               const Center(
                 child: Text("Upload Music",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
               ),
               TextField(
                 controller: _nameController,
@@ -61,7 +63,8 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                   onPressed: () async {
                     // Pick image
                     final imagePicker = ImagePicker();
-                    final pickedImage = await imagePicker.pickImage(source: ImageSource.gallery);
+                    final pickedImage = await imagePicker.pickImage(
+                        source: ImageSource.gallery);
 
                     if (pickedImage != null) {
                       setState(() {
@@ -87,7 +90,8 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                 child: ElevatedButton(
                   onPressed: () async {
                     // Pick audio file
-                    FilePickerResult? result = await FilePicker.platform.pickFiles(
+                    FilePickerResult? result =
+                        await FilePicker.platform.pickFiles(
                       type: FileType.audio,
                       allowMultiple: false,
                     );
@@ -127,11 +131,13 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                       if (_selectedImage != null && _selectedAudio != null) {
                         try {
                           // Upload image
-                          final imageRef = FirebaseStorage.instance.ref().child('images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+                          final imageRef = FirebaseStorage.instance.ref().child(
+                              'images/${DateTime.now().millisecondsSinceEpoch}.jpg');
                           await imageRef.putFile(_selectedImage!);
 
                           // Upload audio
-                          final audioRef = FirebaseStorage.instance.ref().child('audios/${DateTime.now().millisecondsSinceEpoch}.mp3');
+                          final audioRef = FirebaseStorage.instance.ref().child(
+                              'audios/${DateTime.now().millisecondsSinceEpoch}.mp3');
                           await audioRef.putFile(_selectedAudio!);
 
                           // Get the download URLs
@@ -158,7 +164,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
 
                             // Show snackbar
                             ScaffoldMessenger.of(context).showSnackBar(
-                           const   SnackBar(
+                              const SnackBar(
                                 content: Text('Uploaded successfully!'),
                                 duration: Duration(seconds: 2),
                               ),
@@ -170,7 +176,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text('Error uploading: $e'),
-                              duration:const Duration(seconds: 2),
+                              duration: const Duration(seconds: 2),
                             ),
                           );
                         }
@@ -348,16 +354,15 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                   width: 400,
                   color: const Color.fromARGB(255, 26, 25, 25),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 10,top: 10),
+                    padding: const EdgeInsets.only(left: 10, top: 10),
                     child: isLoaded
                         ? ListView.separated(
                             itemCount: items.length,
-                            separatorBuilder: (context, index) =>
-                                const Divider(
+                            separatorBuilder: (context, index) => const Divider(
                               color: Color.fromARGB(255, 0, 0, 0),
                             ),
                             itemBuilder: (context, index) => ListTile(
-                              leading:  CircleAvatar(
+                              leading: CircleAvatar(
                                 backgroundImage:
                                     NetworkImage(items[index]["imageUrl"]),
                                 radius: 30,
@@ -369,13 +374,15 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white),
                               ),
-                              subtitle:  Text(items[index]["description"]
-                                ,
+                              subtitle: Text(
+                                items[index]["description"],
                               ),
                             ),
                             scrollDirection: Axis.vertical,
                           )
-                        : const Center(child:  Text("Loading...", style: TextStyle(color: Colors.white))),
+                        : const Center(
+                            child: Text("Loading...",
+                                style: TextStyle(color: Colors.white))),
                   ),
                 ),
                 const SizedBox(height: 20),
