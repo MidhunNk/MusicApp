@@ -3,10 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:music_app/Screens/basicScreen/ProfileScreen.dart';
 import 'package:music_app/Services/categoryoperation.dart';
+import 'package:music_app/Services/grind.dart';
 import 'package:music_app/Services/musiclistOperation.dart';
 
 import 'package:music_app/Settings/notificationScreen.dart';
 import 'package:music_app/models/category.dart';
+import 'package:music_app/models/grindclass.dart';
 import 'package:music_app/models/musiclist.dart';
 
 class MainScreen extends StatefulWidget {
@@ -20,11 +22,13 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   List<List1> categorieslist = [];
   List<Category> categories = [];
+  List<Grindclass> grindclass = [];
   @override
   void initState() {
     super.initState();
     loadCategories();
     loadlist1();
+    loadGrind();
   }
 
   Widget playlistofLeo(Category category) {
@@ -103,6 +107,51 @@ class _MainScreenState extends State<MainScreen> {
       ),
     );
   }
+
+
+
+  Widget grindcategory( Grindclass grindclass) {
+    return Container(
+      color: Color.fromARGB(255, 0, 30, 9),
+      child: Row(
+        children: [
+          SizedBox(
+              height: 80,
+              width: 80,
+              child: Image.asset(
+                grindclass.imageUrl,
+                fit: BoxFit.fill,
+              )),
+          SizedBox(
+            height: 80,
+            width: 103,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20, left: 10),
+              child: Text(
+                grindclass.name,
+                style: GoogleFonts.lato(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 16),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+
+Future<void> loadGrind() async {
+    List<Grindclass> loadGrind = await Grindoperation.getGrind();
+    setState(() {
+      grindclass = loadGrind;
+    });
+  }
+
+
+
+
 
   Widget createMusicList1(List1 categorieslist) {
     return Column(
@@ -366,7 +415,7 @@ class _MainScreenState extends State<MainScreen> {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) =>
-                          createCategory(categories[index])),
+                          grindcategory(grindclass[index])),
                 ),
               ),
               const SizedBox(
