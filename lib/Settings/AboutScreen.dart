@@ -20,35 +20,11 @@ class AboutPage extends StatelessWidget {
       ),
       body: Column(
         children: <Widget>[
-          const Padding(
-            padding:  EdgeInsets.only(left:20,right:20,top:20),
-            child:  Text(
-              '2.2.5.5',
-              style: TextStyle(
-                color: Colors.white,        
-                fontSize: 45,
-                fontWeight: FontWeight.bold,
-              ),
-            ),                      
-          ),
-          const SizedBox(), // Adjust the height between the two Text widgets
-          const Text(
-            'App version', // Add your additional information
-            style: TextStyle(
-              fontSize: 15,
-             fontWeight: FontWeight.bold,
-             color: Color.fromARGB(255, 255, 255, 255),
-            ),
-          ),
-          const SizedBox(height: 50), // Adjust the height between the two Text widgets
-          const Text(
-            'Release Date: December 07, 2023', // Add your additional information
-            style: TextStyle(
-              fontSize: 18,
-              color: Color.fromARGB(255, 208, 203, 203),
-            ),
-          ),
           const SizedBox(height: 30),
+           const ListTile(
+            title:  Text('App version : 2.3.3',style: TextStyle(color: Colors.white),),
+            
+          ),
           ListTile(
             title: const Text('Terms and Conditions',style: TextStyle(color: Colors.white),),
             onTap: () {

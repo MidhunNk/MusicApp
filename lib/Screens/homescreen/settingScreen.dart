@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:music_app/Screens/homescreen/Playlistscreen.dart';
 import 'package:music_app/Settings/AboutScreen.dart';
 import 'package:music_app/Settings/FeedBackScreen.dart';
 import 'package:music_app/Screens/basicScreen/ProfileScreen.dart';
@@ -89,6 +90,10 @@ class PersonScreen extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
             onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PlaylistScreen()),
+              );
               // Handle offline playback settings
             },
           ),
