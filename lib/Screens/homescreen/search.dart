@@ -98,9 +98,15 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+    // Other asynchronous tasks
+    runApp(MyApp());
+  } catch (e) {
+    print('Error initializing app: $e');
+    // Handle errors gracefully
+  }
 }
 
 class MyApp extends StatelessWidget {
