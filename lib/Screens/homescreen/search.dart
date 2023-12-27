@@ -2,29 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() async {
-  try {
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
-    // Other asynchronous tasks
-    runApp(MyApp());
-  } catch (e) {
-    print('Error initializing app: $e');
-    // Handle errors gracefully
-  }
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SearchScreen(
-        items: [],
-      ),
-    );
-  }
-}
-
 class SearchScreen extends StatefulWidget {
   SearchScreen({Key? key, required List<Map<String, dynamic>> items})
       : super(key: key);
@@ -71,9 +48,10 @@ class _SearchScreenState extends State<SearchScreen> {
   void _performSearch(String query) {
     setState(() {
       searchResults = items
-          .where((element) =>
-              element['name'].toString().toLowerCase().substring(0, 3) ==
-              query.toLowerCase().substring(0, query.length))
+          .where((element) => element['name']
+              .toString()
+              .toLowerCase()
+              .contains(query.toLowerCase()))
           .toList();
     });
   }
@@ -98,16 +76,71 @@ class _SearchScreenState extends State<SearchScreen> {
         elevation: 0,
       ),
       body: !isLoaded
-          ? const Center(
-              child: CircularProgressIndicator(),
+          ? Container(
+              color: Colors.black,
+              child: const Center(
+                child: CircularProgressIndicator(
+                  color: Color.fromARGB(255, 71, 245, 55),
+                ),
+              ),
             )
-          : ListView.builder(
-              itemCount: searchResults.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(searchResults[index]['name']),
-                );
-              },
+          : Container(
+              color: Colors.black,
+              child: ListView.builder(
+                itemCount: searchResults.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: NetworkImage(items[index]["imageUrl"]),
+                    ),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          searchResults[index]['name'],
+                          style: const TextStyle(
+                            color: Color.fromARGB(255, 71, 245, 55),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.person,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              items[index]["Artist"],
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.description,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              items[index]["description"],
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
     );
   }

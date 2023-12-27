@@ -56,7 +56,7 @@
 //     _incrementCounter();
 //     _audioPlayer.onPlayerComplete.listen((event) {
 //       playNext();
-     
+
 //     });
 //     _audioPlayer.onDurationChanged.listen((Duration duration) {
 //       setState(() {
@@ -100,8 +100,6 @@
 //       _audioPlayer.play(UrlSource(url));
 //     }
 //   }
-
-
 
 //   void pause() {
 //     _audioPlayer.pause();
@@ -171,7 +169,7 @@
 //           mainAxisAlignment: MainAxisAlignment.center,
 //           crossAxisAlignment: CrossAxisAlignment.center,
 //           children: [
-            
+
 //             Center(
 //               child: Padding(
 //                 padding: const EdgeInsets.only(top: 5),
@@ -629,14 +627,15 @@ class _MusicPlayState extends State<MusicPlayer> {
 
   @override
   Widget build(BuildContext context) {
-     if (!isLoaded) {
-    return const LoadingIndicator(indicatorType: Indicator.triangleSkewSpin); // or any loading indicator
-  }
+    if (!isLoaded) {
+      return const LoadingIndicator(
+          indicatorType:
+              Indicator.triangleSkewSpin); // or any loading indicator
+    }
 
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-      
       backgroundColor: Colors.black,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50),
@@ -644,11 +643,11 @@ class _MusicPlayState extends State<MusicPlayer> {
           title: const Padding(
             padding: EdgeInsets.only(left: 15, top: 10),
             child: Text(
-              "Search",
+              "Groove",
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w500,
-                fontSize: 25,
+                fontSize: 23,
               ),
             ),
           ),
@@ -670,44 +669,43 @@ class _MusicPlayState extends State<MusicPlayer> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 5),
-                child: Container(
-                  width: 350,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: Colors.grey,
-                    ),
-                  ),
-                  child: const TextField(
-                    decoration: InputDecoration(
-                      hintText: "Search for Artists, Songs, Albums",
-                      hintStyle: TextStyle(
-                        color: Color.fromARGB(255, 57, 57, 57),
-                        fontSize: 15,
-                      ),
-                      border: InputBorder.none,
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            // Center(
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(top: 5),
+            //     child: Container(
+            //       width: 350,
+            //       height: 50,
+            //       decoration: BoxDecoration(
+            //         color: Colors.grey[300],
+            //         borderRadius: BorderRadius.circular(10),
+            //         border: Border.all(
+            //           color: Colors.grey,
+            //         ),
+            //       ),
+            //       child: const TextField(
+            //         decoration: InputDecoration(
+            //           hintText: "Search for Artists, Songs, Albums",
+            //           hintStyle: TextStyle(
+            //             color: Color.fromARGB(255, 57, 57, 57),
+            //             fontSize: 15,
+            //           ),
+            //           border: InputBorder.none,
+            //           prefixIcon: Icon(
+            //             Icons.search,
+            //             color: Colors.black,
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             SizedBox(
               height: 15,
             ),
             Stack(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 20, left: 40, right: 20),
+                  padding: const EdgeInsets.only(top: 30, left: 50, right: 30),
                   child: Container(
                     width: size.width - 150,
                     height: size.width - 150,
@@ -726,7 +724,7 @@ class _MusicPlayState extends State<MusicPlayer> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 20, left: 40, right: 20),
+                  padding: const EdgeInsets.only(top: 30, left: 50, right: 30),
                   child: Container(
                     width: size.width - 150,
                     height: size.width - 150,
@@ -925,21 +923,20 @@ class _MusicPlayState extends State<MusicPlayer> {
                 ),
                 Column(
                   children: [
-                //  const   Padding(
-                //       padding:
-                //            EdgeInsets.only(top: 40, left: 1, right: 100),
-                //       child: Text(
-                //         'About the Artist',
-                //         style: TextStyle(
-                //           color: Colors.white,
-                //           fontSize: 20,
-                //           fontWeight: FontWeight.bold,
-                //         ),
-                //       ),
-                //     ),
-                     Padding(
-                      padding:
-                           EdgeInsets.only(top: 40, left: 1, right: 100),
+                    //  const   Padding(
+                    //       padding:
+                    //            EdgeInsets.only(top: 40, left: 1, right: 100),
+                    //       child: Text(
+                    //         'About the Artist',
+                    //         style: TextStyle(
+                    //           color: Colors.white,
+                    //           fontSize: 20,
+                    //           fontWeight: FontWeight.bold,
+                    //         ),
+                    //       ),
+                    //     ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 40, left: 1, right: 100),
                       child: Text(
                         items[index1]["Artist"],
                         style: const TextStyle(
@@ -956,8 +953,10 @@ class _MusicPlayState extends State<MusicPlayer> {
                         width: size.width - 80,
                         height: size.width - 80,
                         decoration: BoxDecoration(
-                          image:  DecorationImage(
-                            image: Image.network(items[index1]["ArtistimageUrl"]).image,
+                          image: DecorationImage(
+                            image:
+                                Image.network(items[index1]["ArtistimageUrl"])
+                                    .image,
                             fit: BoxFit.cover,
                           ),
                           borderRadius: BorderRadius.circular(20),
@@ -970,8 +969,9 @@ class _MusicPlayState extends State<MusicPlayer> {
                       child: Padding(
                         padding:
                             const EdgeInsets.only(top: 20, left: 30, right: 20),
-                        child: Text(items[index1]["Artistdesc"]
-,                          style: TextStyle(
+                        child: Text(
+                          items[index1]["Artistdesc"],
+                          style: TextStyle(
                             color: Color.fromARGB(255, 198, 197, 197),
                             fontSize: 16,
                             fontStyle: FontStyle.italic,
