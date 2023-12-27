@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:music_app/Screens/homescreen/search.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -17,9 +18,8 @@ class PlaylistScreen extends StatefulWidget {
 class _PlaylistScreenState extends State<PlaylistScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
-   final TextEditingController _artistnameController = TextEditingController();
-    final TextEditingController _artistdescController = TextEditingController();
-    
+  final TextEditingController _artistnameController = TextEditingController();
+  final TextEditingController _artistdescController = TextEditingController();
 
   final CollectionReference _items =
       FirebaseFirestore.instance.collection("SongDetails");
@@ -65,11 +65,10 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                     labelText: "Artist Name",
                     hintText: "Artist Name, Singer Name, etc."),
               ),
-                 TextField(
+              TextField(
                 controller: _artistdescController,
                 decoration: const InputDecoration(
-                    labelText: "Artist Description",
-                    hintText: "Artist About"),
+                    labelText: "Artist Description", hintText: "Artist About"),
               ),
               const SizedBox(
                 height: 10,
@@ -102,12 +101,13 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
               const SizedBox(
                 height: 10,
               ),
-                Center(
+              Center(
                 child: ElevatedButton(
                   onPressed: () async {
                     // Pick image
                     final artistimagePicker = ImagePicker();
-                    final pickedImage1 = await artistimagePicker.pickImage(source: ImageSource.gallery);
+                    final pickedImage1 = await artistimagePicker.pickImage(
+                        source: ImageSource.gallery);
 
                     if (pickedImage1 != null) {
                       setState(() {
@@ -142,7 +142,6 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                       });
                     }
                   },
-                  
                   child: const Row(
                     children: [
                       Icon(Icons.music_note),
@@ -176,7 +175,10 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                               'images/${DateTime.now().millisecondsSinceEpoch}.jpg');
                           await imageRef.putFile(_selectedImage!);
 
-                          final artistimageRef = FirebaseStorage.instance.ref().child('Artistimages/${DateTime.now().millisecondsSinceEpoch}.jpg');
+                          final artistimageRef = FirebaseStorage.instance
+                              .ref()
+                              .child(
+                                  'Artistimages/${DateTime.now().millisecondsSinceEpoch}.jpg');
                           await artistimageRef.putFile(_selectedartistImage!);
 
                           // Upload audio
@@ -187,7 +189,8 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                           // Get the download URLs
                           final imageUrl = await imageRef.getDownloadURL();
                           final audioUrl = await audioRef.getDownloadURL();
-                          final artistimageUrl = await artistimageRef.getDownloadURL();
+                          final artistimageUrl =
+                              await artistimageRef.getDownloadURL();
 
                           final String name = _nameController.text;
                           final String desc = _descController.text;
@@ -203,7 +206,6 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                               "Artist": artistname,
                               "Artistdesc": artistdesc,
                               "ArtistimageUrl": artistimageUrl,
-
                             });
 
                             _nameController.text = '';
@@ -282,180 +284,194 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(kToolbarHeight),
-        child: Container(
-          width: double.infinity,
-          color: const Color.fromARGB(255, 28, 26, 26),
-          child: AppBar(
-            backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-            title: const Padding(
-              padding: EdgeInsets.only(left: 25),
-              child: Text(
-                "Your Library",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-                  fontWeight: FontWeight.w500,
+    return Navigator(
+      onGenerateRoute: (Settings) {
+        return MaterialPageRoute(
+          builder: (BuildContext context) {
+            return Scaffold(
+              backgroundColor: Colors.black,
+              appBar: PreferredSize(
+                preferredSize: const Size.fromHeight(kToolbarHeight),
+                child: Container(
+                  width: double.infinity,
+                  color: const Color.fromARGB(255, 28, 26, 26),
+                  child: AppBar(
+                    backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                    title: const Padding(
+                      padding: EdgeInsets.only(left: 25),
+                      child: Text(
+                        "Your Library",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    actions: [
+                      GestureDetector(
+                        onTap: () {
+                          // Navigating to the ProfileScreen
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SearchScreen(items: items),
+                            ),
+                          );
+                        },
+                        child: const Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(right: 20),
+                              child: Icon(
+                                Icons.search,
+                                color: Color.fromARGB(255, 115, 255, 0),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(right: 15),
+                              child: Icon(
+                                Icons.add,
+                                color: Color.fromARGB(255, 251, 251, 251),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            actions: [
-
-              GestureDetector(
-                onTap: () {
-                  // Navigating to the ProfileScreen
-                },
-                child: const Row(
+              body: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(right: 20),
-                      child: Icon(
-                        Icons.search,
-                        color: Color.fromARGB(255, 115, 255, 0),
-                      ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20, top: 20),
+                          child: OutlinedButton(
+                            onPressed: () {},
+                            child: const Text(
+                              "Playlists",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 0, 255, 72),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w200,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, top: 20),
+                          child: OutlinedButton(
+                            onPressed: () {},
+                            child: const Text(
+                              "Artists",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 0, 255, 72),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w200,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, top: 20),
+                          child: OutlinedButton(
+                            onPressed: () {},
+                            child: const Text(
+                              "Albums",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 0, 255, 72),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w200,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 15),
-                      child: Icon(
-                        Icons.add,
-                        color: Color.fromARGB(255, 251, 251, 251),
-                      ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: IconButton(
+                              onPressed: () {},
+                              icon:
+                                  const Icon(Icons.sort, color: Colors.white)),
+                        ),
+                        const Text("Recently Played",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500)),
+                      ],
                     ),
+                    Stack(
+                      children: [
+                        Container(
+                          height: 500,
+                          width: 400,
+                          color: const Color.fromARGB(255, 26, 25, 25),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 10, top: 10),
+                            child: isLoaded
+                                ? ListView.separated(
+                                    itemCount: items.length,
+                                    separatorBuilder: (context, index) =>
+                                        const Divider(
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                    itemBuilder: (context, index) => ListTile(
+                                      leading: CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                            items[index]["imageUrl"]),
+                                        radius: 30,
+                                      ),
+                                      title: Text(
+                                        items[index]["name"],
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
+                                      subtitle: Text(
+                                        items[index]["description"],
+                                      ),
+                                    ),
+                                    scrollDirection: Axis.vertical,
+                                  )
+                                : const Center(
+                                    child: Text("Loading...",
+                                        style: TextStyle(color: Colors.white))),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Padding(
+                          padding: EdgeInsets.only(top: 420, left: 320),
+                          child: FloatingActionButton(
+                            child: Icon(Icons.queue_music_sharp,
+                                color: Color.fromARGB(255, 44, 44, 44)),
+                            backgroundColor: Color.fromARGB(255, 46, 255, 5),
+                            elevation: 0,
+                            onPressed: () {
+                              _upload();
+                            },
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, top: 20),
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "Playlists",
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 0, 255, 72),
-                        fontSize: 15,
-                        fontWeight: FontWeight.w200,
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, top: 20),
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "Artists",
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 0, 255, 72),
-                        fontSize: 15,
-                        fontWeight: FontWeight.w200,
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, top: 20),
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "Albums",
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 0, 255, 72),
-                        fontSize: 15,
-                        fontWeight: FontWeight.w200,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.sort, color: Colors.white)),
-                ),
-                const Text("Recently Played",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500)),
-              ],
-            ),
-            Stack(
-              children: [
-                Container(
-                  height: 500,
-                  width: 400,
-                  color: const Color.fromARGB(255, 26, 25, 25),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10, top: 10),
-                    child: isLoaded
-                        ? ListView.separated(
-                            itemCount: items.length,
-                            separatorBuilder: (context, index) => const Divider(
-                              color: Color.fromARGB(255, 0, 0, 0),
-                            ),
-                            itemBuilder: (context, index) => ListTile(
-                              leading: CircleAvatar(
-                                backgroundImage:
-                                    NetworkImage(items[index]["imageUrl"]),
-                                radius: 30,
-                              ),
-                              title: Text(
-                                items[index]["name"],
-                                style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                              subtitle: Text(
-                                items[index]["description"],
-                              ),
-                            ),
-                            scrollDirection: Axis.vertical,
-                          )
-                        : const Center(
-                            child: Text("Loading...",
-                                style: TextStyle(color: Colors.white))),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: EdgeInsets.only(top: 420, left: 320),
-                  child: FloatingActionButton(
-                    child: Icon(Icons.queue_music_sharp,
-                        color: Color.fromARGB(255, 44, 44, 44)),
-                    backgroundColor: Color.fromARGB(255, 46, 255, 5),
-                    elevation: 0,
-                    onPressed: () {
-                      _upload();
-                    },
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
+            );
+          },
+        );
+      },
     );
   }
 }

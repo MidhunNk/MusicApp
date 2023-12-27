@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:music_app/Screens/homescreen/search.dart';
+import 'package:music_app/Screens/basicScreen/authenticate.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -21,7 +21,7 @@ class MusicApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.black,
       ),
-      home: SearchScreen(),
+      home: const AuthPage(),
     );
   }
 }

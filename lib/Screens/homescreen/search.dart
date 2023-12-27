@@ -113,13 +113,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SearchScreen(),
+      home: SearchScreen(
+        items: [],
+      ),
     );
   }
 }
 
 class SearchScreen extends StatefulWidget {
-  SearchScreen({Key? key}) : super(key: key);
+  SearchScreen({Key? key, required List<Map<String, dynamic>> items})
+      : super(key: key);
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -165,7 +168,7 @@ class _SearchScreenState extends State<SearchScreen> {
       searchResults = items
           .where((element) =>
               element['name'].toString().toLowerCase().substring(0, 3) ==
-              query.toLowerCase().substring(0, 3))
+              query.toLowerCase().substring(0, query.length))
           .toList();
     });
   }
