@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
@@ -13,8 +14,10 @@ import 'package:music_app/models/grindclass.dart';
 import 'package:music_app/models/musiclist.dart';
 
 class MainScreen extends StatefulWidget {
+  Function miniPlayer;
+  MainScreen(this.miniPlayer);
   // Remove const from the constructor
-  const MainScreen({Key? key}) : super(key: key);
+  
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -37,7 +40,7 @@ class _MainScreenState extends State<MainScreen> {
 
 
 
-  Widget playlistofLeo(Category category) {
+  Widget playlistofLeo(Category category,Function miniPlayer) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,13 +48,18 @@ class _MainScreenState extends State<MainScreen> {
         SizedBox(
           height: 8,
         ),
-        Container(
-            height: 180,
-            width: 180,
-            child: Image.network(
-              category.imageUrl,
-              fit: BoxFit.cover,
-            )),
+        InkWell(
+          onTap: () {
+          widget.miniPlayer(category);
+              },
+          child: Container(
+              height: 180,
+              width: 180,
+              child: Image.network(
+                category.imageUrl,
+                fit: BoxFit.cover,
+              )),
+        ),
         Padding(
           padding: const EdgeInsets.only(top: 10),
           child: Text(
@@ -173,13 +181,18 @@ Future<void> loadGrind() async {
         const SizedBox(
           height: 8,
         ),
-        Container(
-            height: 180,
-            width: 180,
-            child: Image.network(
-              categorieslist.imageUrl,
-              fit: BoxFit.cover,
-            )),
+        InkWell(
+          onTap: (){
+            widget.miniPlayer(categorieslist);
+          },
+          child: Container(
+              height: 180,
+              width: 180,
+              child: Image.network(
+                categorieslist.imageUrl,
+                fit: BoxFit.cover,
+              )),
+        ),
         Padding(
           padding: const EdgeInsets.only(top: 10),
           child: Text(
@@ -479,7 +492,7 @@ Future<void> loadGrind() async {
                       width: 10,
                     ),
                     itemBuilder: (context, index) =>
-                        playlistofLeo(categories[index]),
+                        playlistofLeo(categories[index],widget.miniPlayer),
                     scrollDirection: Axis.horizontal,
                   ),
                 ),

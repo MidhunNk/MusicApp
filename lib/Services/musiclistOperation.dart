@@ -13,7 +13,6 @@
 //   }
 // }
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:music_app/models/category.dart';
 
 class List1Operation {
   List1Operation._();
@@ -27,9 +26,10 @@ class List1Operation {
         String name = documentSnapshot['name'];
         String imagePath = documentSnapshot['imageUrl'];
         String desc = documentSnapshot['description'];
+        String songUrl = documentSnapshot['songUrl'];
 
 
-        return List1(name, imagePath, desc);
+        return List1(name, imagePath, desc, songUrl);
       }).toList();
 
       return categories1;

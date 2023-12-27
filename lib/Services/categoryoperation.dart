@@ -31,9 +31,10 @@ class CategoryOperation {
         String name = documentSnapshot['name'];
         String imagePath = documentSnapshot['imageUrl'];
         String desc = documentSnapshot['description'];
+        String songUrl = documentSnapshot['songUrl'];
 
 
-        return Category(name, imagePath, desc);
+        return Category(name, imagePath, desc,songUrl);
       }).toList();
 
       return categories;
