@@ -986,14 +986,6 @@ class _MusicPlayState extends State<MusicPlayer> {
           ],
         ),
       ),
-
-      //... (rest of your code remains unchanged)
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: MusicPlayer(),
-  ));
 }

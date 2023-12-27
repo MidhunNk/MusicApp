@@ -45,14 +45,26 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 
+  // void _performSearch(String query) {
+  //   setState(() {
+  //     searchResults = items
+  //         .where((element) => element['name']
+  //             .toString()
+  //             .toLowerCase()
+  //             .contains(query.toLowerCase()))
+  //         .toList();
+  //   });
+  // }
   void _performSearch(String query) {
     setState(() {
-      searchResults = items
-          .where((element) => element['name']
-              .toString()
-              .toLowerCase()
-              .contains(query.toLowerCase()))
-          .toList();
+      searchResults = items.where((element) {
+        final itemName = element['name'].toString().toLowerCase();
+        final artistName = element['artistName'].toString().toLowerCase();
+        final searchLowerCase = query.toLowerCase();
+
+        return itemName.contains(searchLowerCase) ||
+            artistName.contains(searchLowerCase);
+      }).toList();
     });
   }
 
@@ -84,64 +96,77 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
             )
-          : Container(
-              color: Colors.black,
-              child: ListView.builder(
-                itemCount: searchResults.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: NetworkImage(items[index]["imageUrl"]),
+          : searchResults.isEmpty
+              ? Container(
+                  color: Colors.black,
+                  child: const Center(
+                    child: Text(
+                      'Search Available Musics',
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 217, 45, 45),
+                          fontWeight: FontWeight.bold),
                     ),
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          searchResults[index]['name'],
-                          style: const TextStyle(
-                            color: Color.fromARGB(255, 71, 245, 55),
-                          ),
+                  ),
+                )
+              : Container(
+                  color: Colors.black,
+                  child: ListView.builder(
+                    itemCount: searchResults.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage:
+                              NetworkImage(items[index]["imageUrl"]),
                         ),
-                        Row(
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Icon(
-                              Icons.person,
-                              color: Colors.white,
-                              size: 16,
-                            ),
-                            const SizedBox(width: 4),
                             Text(
-                              items[index]["Artist"],
+                              searchResults[index]['name'],
                               style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
+                                color: Color.fromARGB(255, 71, 245, 55),
                               ),
+                            ),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.person,
+                                  color: Colors.white,
+                                  size: 16,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  items[index]["Artist"],
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.description,
+                                  color: Colors.white,
+                                  size: 16,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  items[index]["description"],
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.description,
-                              color: Colors.white,
-                              size: 16,
-                            ),
-                            const SizedBox(width: 4),
-                            Text(
-                              items[index]["description"],
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
+                      );
+                    },
+                  ),
+                ),
     );
   }
 }
