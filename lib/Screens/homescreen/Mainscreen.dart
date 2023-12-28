@@ -13,6 +13,7 @@ import 'package:music_app/models/category.dart';
 import 'package:music_app/models/grindclass.dart';
 import 'package:music_app/models/musiclist.dart';
 
+// ignore: must_be_immutable
 class MainScreen extends StatefulWidget {
   Function miniPlayer;
   MainScreen(this.miniPlayer);
@@ -83,6 +84,52 @@ class _MainScreenState extends State<MainScreen> {
       ],
     );
   }
+
+
+  
+  Widget playlistofkgf(List1 categorieslist,Function miniPlayer) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 8,
+        ),
+        InkWell(
+          onTap: () {
+          widget.miniPlayer(categorieslist);
+              },
+          child: Container(
+              height: 180,
+              width: 180,
+              child: Image.network(
+                categorieslist.imageUrl,
+                fit: BoxFit.cover,
+              )),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Text(
+            categorieslist.name,
+            style: GoogleFonts.lato(
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
+          ),
+        ),
+        SizedBox(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 5, bottom: 2),
+            child: Text(
+              categorieslist.description,
+              style: GoogleFonts.lato(
+                  color: Colors.white,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w600),
+            ),
+          ),
+        )
+      ],
+    );
+  }
    
    
 
@@ -132,7 +179,7 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget grindcategory( Grindclass grindclass) {
     return Container(
-      color: Color.fromARGB(255, 0, 30, 9),
+      color: Color.fromARGB(255, 26, 26, 26),
       child: Row(
         children: [
           SizedBox(
@@ -173,49 +220,49 @@ Future<void> loadGrind() async {
 
 
 
-  Widget createMusicList1(List1 categorieslist) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(
-          height: 8,
-        ),
-        InkWell(
-          onTap: (){
-            widget.miniPlayer(categorieslist);
-          },
-          child: Container(
-              height: 180,
-              width: 180,
-              child: Image.network(
-                categorieslist.imageUrl,
-                fit: BoxFit.cover,
-              )),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: Text(
-            categorieslist.name,
-            style: GoogleFonts.lato(
-                color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
-          ),
-        ),
-        SizedBox(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 5, bottom: 2),
-            child: Text(
-              categorieslist.description,
-              style: GoogleFonts.lato(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontWeight: FontWeight.w600),
-            ),
-          ),
-        )
-      ],
-    );
-  }
+  // Widget createMusicList1(List1 categorieslist,) {
+  //   return Column(
+  //     mainAxisAlignment: MainAxisAlignment.start,
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       const SizedBox(
+  //         height: 8,
+  //       ),
+  //       InkWell(
+  //         onTap: (){
+  //           widget.miniPlayer(categorieslist);
+  //         },
+  //         child: Container(
+  //             height: 180,
+  //             width: 180,
+  //             child: Image.network(
+  //               categorieslist.imageUrl,
+  //               fit: BoxFit.cover,
+  //             )),
+  //       ),
+  //       Padding(
+  //         padding: const EdgeInsets.only(top: 10),
+  //         child: Text(
+  //           categorieslist.name,
+  //           style: GoogleFonts.lato(
+  //               color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
+  //         ),
+  //       ),
+  //       SizedBox(
+  //         child: Padding(
+  //           padding: const EdgeInsets.only(top: 5, bottom: 2),
+  //           child: Text(
+  //             categorieslist.description,
+  //             style: GoogleFonts.lato(
+  //                 color: Colors.white,
+  //                 fontSize: 10,
+  //                 fontWeight: FontWeight.w600),
+  //           ),
+  //         ),
+  //       )
+  //     ],
+  //   );
+  // }
 
   Future<void> loadlist1() async {
     List<List1> loadedCategories1 = await List1Operation.getList1();
@@ -224,77 +271,77 @@ Future<void> loadGrind() async {
     });
   }
 
-  Widget createMusicList(String label) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 20),
-          child: Text(
-            label,
-            textAlign: TextAlign.left,
-            style: const TextStyle(
-              color: Color.fromARGB(255, 255, 255, 255),
-              fontSize: 22,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-        Container(
-          color: Color.fromARGB(213, 0, 32, 9),
-          height: 250,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: ListView.separated(
-              itemCount: categorieslist.length,
-              separatorBuilder: (context, index) => const SizedBox(
-                width: 10,
-              ),
-              itemBuilder: (context, index) =>
-                  createMusicList1(categorieslist[index]),
-              scrollDirection: Axis.horizontal,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+  // Widget createMusicList(String label) {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       Padding(
+  //         padding: const EdgeInsets.only(left: 20),
+  //         child: Text(
+  //           label,
+  //           textAlign: TextAlign.left,
+  //           style: const TextStyle(
+  //             color: Color.fromARGB(255, 255, 255, 255),
+  //             fontSize: 22,
+  //             fontWeight: FontWeight.w500,
+  //           ),
+  //         ),
+  //       ),
+  //       Container(
+  //         color: Color.fromARGB(213, 0, 32, 9),
+  //         height: 250,
+  //         child: Padding(
+  //           padding: const EdgeInsets.only(left: 20),
+  //           child: ListView.separated(
+  //             itemCount: categorieslist.length,
+  //             separatorBuilder: (context, index) => const SizedBox(
+  //               width: 10,
+  //             ),
+  //             itemBuilder: (context, index) =>
+  //                 createMusicList1(categorieslist[index]),
+  //             scrollDirection: Axis.horizontal,
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
-  Widget createMusicListkgf(String label) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 20),
-          child: Text(
-            label,
-            textAlign: TextAlign.left,
-            style: const TextStyle(
-              color: Color.fromARGB(255, 255, 255, 255),
-              fontSize: 22,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-        Container(
-          color: Color.fromARGB(213, 0, 32, 9),
-          height: 250,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: ListView.separated(
-              itemCount: categories.length,
-              separatorBuilder: (context, index) => const SizedBox(
-                width: 10,
-              ),
-              itemBuilder: (context, index) =>
-                  createMusicList1(categorieslist[index]),
-              scrollDirection: Axis.horizontal,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+  // Widget createMusicListkgf(String label) {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       Padding(
+  //         padding: const EdgeInsets.only(left: 20),
+  //         child: Text(
+  //           label,
+  //           textAlign: TextAlign.left,
+  //           style: const TextStyle(
+  //             color: Color.fromARGB(255, 255, 255, 255),
+  //             fontSize: 22,
+  //             fontWeight: FontWeight.w500,
+  //           ),
+  //         ),
+  //       ),
+  //       Container(
+  //         color: Color.fromARGB(213, 0, 32, 9),
+  //         height: 250,
+  //         child: Padding(
+  //           padding: const EdgeInsets.only(left: 20),
+  //           child: ListView.separated(
+  //             itemCount: categories.length,
+  //             separatorBuilder: (context, index) => const SizedBox(
+  //               width: 10,
+  //             ),
+  //             itemBuilder: (context, index) =>
+  //                 createMusicList1(categorieslist[index]),
+  //             scrollDirection: Axis.horizontal,
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
 
    Future<void> loadData() async {
@@ -465,7 +512,7 @@ Future<void> loadGrind() async {
               const SizedBox(
                 height: 15,
               ),
-              createMusicList("Playlist From KGF"),
+              //createMusicList("Playlist From KGF"),
               const SizedBox(
                 height: 20,
               ),
@@ -482,14 +529,15 @@ Future<void> loadGrind() async {
                 ),
               ),
               Container(
-                color: Color.fromARGB(213, 0, 32, 9),
+                color: Color.fromARGB(211, 25, 25, 25),
                 height: 250,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 20),
+                  padding: const EdgeInsets.only(left: 10),
                   child: ListView.separated(
                     itemCount: categories.length,
-                    separatorBuilder: (context, index) => const SizedBox(
-                      width: 10,
+                    separatorBuilder: (context, index) =>  Container(
+                      width: 8,
+                      color: Color.fromARGB(255, 0, 0, 0),
                     ),
                     itemBuilder: (context, index) =>
                         playlistofLeo(categories[index],widget.miniPlayer),
@@ -497,6 +545,37 @@ Future<void> loadGrind() async {
                   ),
                 ),
               ),
+   const Padding(
+                padding: EdgeInsets.only(left: 20),
+                child: Text(
+                  "Shows That You Might Like",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              Container(
+                color: Color.fromARGB(211, 25, 25, 25),
+                height: 250,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: ListView.separated(
+                    itemCount: categorieslist.length,
+                    separatorBuilder: (context, index) =>  Container(
+                      width: 8,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
+                    itemBuilder: (context, index) =>
+                        playlistofkgf(categorieslist[index],widget.miniPlayer),
+                    scrollDirection: Axis.horizontal,
+                  ),
+                ),
+              ),
+
+              
             ],
           ),
         ));

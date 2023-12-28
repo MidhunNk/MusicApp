@@ -5,7 +5,7 @@ import 'package:music_app/Screens/homescreen/Mainscreen.dart';
 import 'package:music_app/Screens/homescreen/settingScreen.dart';
 import 'package:music_app/Screens/homescreen/Playlistscreen.dart';
 import 'package:music_app/Screens/homescreen/playscreen.dart';
-import 'package:music_app/models/musiclist.dart';
+import 'package:music_app/models/category.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -22,64 +22,70 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isLoaded = false;
 
   bool isPlaying = false;
-  List1? music;
-  List<List1> musicList = [];
+  Category? music;
 
+  
+  List<Category> musicList = [];
+  
   void playnext() async {
-    if (musicList.isEmpty || music == null) {
-      return;
-    }
+  int currentIndex = musicList.indexOf(music!);
+  if (currentIndex == musicList.length - 1) {
+    currentIndex = 0;
+  } else {
+    currentIndex++;
+  }
+  print("playnext: currentIndex is $currentIndex");
+  updateMiniPlayer(musicList[currentIndex]);
+}
 
-    int index = musicList.indexOf(music!);
-    if (index == -1) {
-      // If the current music is not in the list, play the first song
-      music = musicList.first;
+void playprevious() async {
+  int currentIndex = musicList.indexOf(music!);
+  print("playprevious: currentIndex before: $currentIndex");
+  if (currentIndex == 0) {
+    currentIndex = musicList.length - 1;
+  } else {
+    currentIndex--;
+  }
+  print("playprevious: currentIndex after: $currentIndex");
+  updateMiniPlayer(musicList[currentIndex]);
+}
+
+
+
+
+
+
+
+
+void updateMiniPlayer(Category? newMusic) async {
+  if (newMusic == null) {
+    // Reset mini player state when no new music is available
+    isPlaying = false;
+    await _audioPlayer.stop();
+  } else if (music == newMusic) {
+    // Toggle play/pause state if the same song is played again
+    isPlaying = !isPlaying;
+    if (isPlaying) {
+      await _audioPlayer.resume();
     } else {
-      // Play the next song in the list
-      index = (index + 1) % musicList.length;
-      music = musicList[index];
+      await _audioPlayer.pause();
     }
-
+  } else {
+    // Play the new song and update mini player state
+    music = newMusic;
+    isPlaying = true;
     await _audioPlayer.play(UrlSource(music!.songUrl));
-    setState(() {});
   }
+  print("music is $music");
 
-  void playprevious() async {
-    if (musicList.isEmpty || music == null) {
-      return;
-    }
+  setState(() {});
+}
 
-    int index = musicList.indexOf(music!);
-    if (index == -1) {
-      // If the current music is not in the list, play the first song
-      music = musicList.first;
-    } else {
-      // Play the previous song in the list
-      index = (index - 1 + musicList.length) % musicList.length;
-      music = musicList[index];
-    }
 
-    await _audioPlayer.play(UrlSource(music!.songUrl));
-    setState(() {});
-  }
 
-  void updateMiniPlayer(List1? newMusic) {
-    if (newMusic == null) {
-      // Reset mini player state when no new music is available
-      isPlaying = false;
-    } else if (music == newMusic) {
-      // Toggle play/pause state if the same song is played again
-      isPlaying = !isPlaying;
-    } else {
-      // Play the new song and update mini player state
-      music = newMusic;
-      isPlaying = true;
-      _audioPlayer.play(UrlSource(music!.songUrl));
-    }
-    setState(() {});
-  }
+  
 
-  Widget miniPlayer(List1? music, {bool stop = false}) {
+  Widget miniPlayer(Category? music, {bool stop = false}) {
     this.music = music;
 
     if (music == null) {
@@ -157,6 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 IconButton(
                   onPressed: () {
+                    //playprevious();
                     playprevious();
                   },
                   icon: const Icon(
@@ -179,6 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 IconButton(
                   onPressed: () {
+                    //playnext();
                     playnext();
                   },
                   icon: const Icon(
